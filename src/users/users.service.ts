@@ -32,18 +32,4 @@ export class UsersService {
   async update(id: string, user: UserInput): Promise<UserShow> {
     return await this.userModel.findByIdAndUpdate(id, user, { new: true })
   }
-
-  async login(userInput: UserInput): Promise<UserShow> {
-    console.log(userInput)
-    const { email, password } = userInput
-    const user = await this.userModel.findOne({ email })
-
-    console.log({ user })
-
-    if (!user) return null
-
-    const valid = await bcryptjs.compare(password, user.password)
-
-    return valid ? user : null
-  }
 }

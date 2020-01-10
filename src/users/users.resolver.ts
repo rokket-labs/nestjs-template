@@ -35,19 +35,4 @@ export class UsersResolver {
   async deleteUser(@Args('id') id: string): Promise<UserShow> {
     return this.usersService.delete(id)
   }
-
-  @Mutation(() => UserShow)
-  async signUp(@Args('input') input: UserInput): Promise<UserShow> {
-    return this.usersService.create(input)
-  }
-
-  @Mutation(() => UserShow)
-  async login(@Args('input') input: UserLogin): Promise<UserShow> {
-    return this.usersService.login(input)
-  }
-
-  @Query(() => String)
-  async hello(): Promise<string> {
-    return 'hello'
-  }
 }

@@ -1,19 +1,23 @@
 import { Injectable } from '@nestjs/common'
-import { UsersService } from 'src/users/users.service'
 import { User } from 'src/users/interfaces/users.interface'
 import { UserShow } from '../users/dto/user-show.dto'
+import { UserInput } from 'src/users/dto/user-input.dto'
+import { InjectModel } from '@nestjs/mongoose'
+import { Model } from 'mongoose'
+import * as bcryptjs from 'bcryptjs'
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(@InjectModel('User') private userModel: Model<User>) {}
 
-  async validate({ id }): Promise<UserShow> {
-    const user = await this.usersService.findOne(id)
+  async login(userInput: UserInput): Promise<UserShow> {
+    const { email, password } = userInput
+    const user = await this.userModel.findOne({ email })
 
-    if (!user) {
-      throw Error('Authenticate validation error')
-    }
+    if (!user) return null
 
-    return user
+    const valid = await bcryptjs.compare(password, user.password)
+
+    return valid ? user : null
   }
 }

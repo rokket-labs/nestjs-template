@@ -23,8 +23,7 @@ type Mutation {
   createUser(input: UserInput!): UserShow!
   updateUser(input: UserInput!, id: String!): UserShow!
   deleteUser(id: String!): UserShow!
-  signUp(input: UserInput!): UserShow!
-  login(input: UserLogin!): UserShow!
+  login(input: UserLogin!): TokenDto!
 }
 
 type Query {
@@ -33,6 +32,10 @@ type Query {
   hello: String!
   users: [UserShow!]!
   getUser(id: String!): UserShow!
+}
+
+type TokenDto {
+  jwt: String!
 }
 
 input UserInput {

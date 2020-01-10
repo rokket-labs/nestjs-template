@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URL="mongodb://mongo"
+      - JWT_SECRET="VERYSECRETJWTWOWROKKET"
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27018:27017"
