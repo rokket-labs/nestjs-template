@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing'
+import { getModelToken } from '@nestjs/mongoose'
 import * as mongoose from 'mongoose'
 
 import { ItemsResolver } from './items.resolver'
 import { ItemsService } from './items.service'
 import { ItemSchema } from './items.schema'
-import { getModelToken } from '@nestjs/mongoose'
 
 const ItemModel = mongoose.model('Item', ItemSchema)
 

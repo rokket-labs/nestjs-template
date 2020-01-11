@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common'
+import { MongooseModule } from '@nestjs/mongoose'
+
 import { ItemsService } from './items.service'
 import { ItemsResolver } from './items.resolver'
-import { MongooseModule } from '@nestjs/mongoose'
 import { ItemSchema } from './items.schema'
 
 @Module({

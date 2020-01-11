@@ -1,7 +1,10 @@
+import { UseGuards } from '@nestjs/common'
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
+
 import { ItemsService } from './items.service'
 import { ItemType } from './dto/create-item.dto'
 import { ItemInput } from './input-items.input'
+import { GqlAuthGuard } from 'src/auth/grapqhl-auth.guard'
 
 @Resolver('Items')
 export class ItemsResolver {
@@ -13,6 +16,7 @@ export class ItemsResolver {
   }
 
   @Query(() => ItemType)
+  @UseGuards(GqlAuthGuard)
   async getItem(@Args('id') id: string): Promise<ItemType> {
     return this.itemsService.findOne(id)
   }
