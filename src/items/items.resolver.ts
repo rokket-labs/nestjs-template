@@ -29,7 +29,7 @@ export class ItemsResolver {
   @Mutation(() => ItemType)
   async updateItem(
     @Args('id') id: string,
-    @Args('input') input: ItemInput,
+    @Args('input') input: ItemInput
   ): Promise<ItemInput> {
     return this.itemsService.update(id, input)
   }

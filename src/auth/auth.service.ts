@@ -13,7 +13,7 @@ import { Token } from './interfaces/token.interface'
 export class AuthService {
   constructor(
     @InjectModel('User') private userModel: Model<User>,
-    private readonly jwt: JwtService,
+    private readonly jwt: JwtService
   ) {}
 
   async login(user: UserShow): Promise<Token> {
@@ -43,9 +43,7 @@ export class AuthService {
 
   async validate({ id }): Promise<UserShow | null> {
     const user = await this.userModel.findOne({ _id: id })
-    if (!user) {
-      throw Error('Authenticate validation error')
-    }
+    if (!user) throw Error('Authenticate validation error')
     return user
   }
 }

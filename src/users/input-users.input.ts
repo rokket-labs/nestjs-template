@@ -1,4 +1,4 @@
-import { InputType, Field, ID } from 'type-graphql'
+import { InputType, Field } from 'type-graphql'
 
 @InputType()
 export class UserInput {

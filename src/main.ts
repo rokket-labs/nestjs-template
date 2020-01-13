@@ -7,10 +7,10 @@ import { ValidationPipe } from '@nestjs/common'
 
 import { AppModule } from './app.module'
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter(),
+    new FastifyAdapter()
   )
   app.useGlobalPipes(new ValidationPipe())
   await app.listen(3000, '0.0.0.0')

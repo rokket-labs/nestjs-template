@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
 import { MongooseModule } from '@nestjs/mongoose'
-import { ConfigModule, ConfigService } from '@nestjs/config'
+import { TerminusModule } from '@nestjs/terminus'
 
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
 import { ItemsModule } from './items/items.module'
 import { AuthModule } from './auth/auth.module'
 import { UsersModule } from './users/users.module'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { TerminusOptionsService } from './terminus-options.service'
 
 @Module({
   imports: [
@@ -25,6 +27,9 @@ import { UsersModule } from './users/users.module'
         useFindAndModify: false,
       }),
       inject: [ConfigService],
+    }),
+    TerminusModule.forRootAsync({
+      useClass: TerminusOptionsService,
     }),
     ItemsModule,
     AuthModule,
