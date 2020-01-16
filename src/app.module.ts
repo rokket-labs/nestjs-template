@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
-import { MongooseModule } from '@nestjs/mongoose'
 import { TerminusModule } from '@nestjs/terminus'
+import { TypegooseModule } from 'nestjs-typegoose'
 
 import { ItemsModule } from './items/items.module'
 import { AuthModule } from './auth/auth.module'
@@ -18,7 +18,7 @@ import { TerminusOptionsService } from './terminus-options.service'
       autoSchemaFile: 'schema-generated.gql',
       context: ({ req, res }) => ({ req, res }),
     }),
-    MongooseModule.forRootAsync({
+    TypegooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (config: ConfigService) => ({
         uri: config.get<string>('MONGO_URL', process.env.MONGO_URL),

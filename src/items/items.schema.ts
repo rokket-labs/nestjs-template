@@ -1,7 +1,10 @@
-import * as mongoose from 'mongoose'
+import { prop, Typegoose } from '@typegoose/typegoose'
 
-export const ItemSchema = new mongoose.Schema({
-  title: String,
-  price: Number,
-  description: String,
-})
+export class Item extends Typegoose {
+  @prop()
+  title: string
+  @prop()
+  price: number
+  @prop()
+  description: string
+}

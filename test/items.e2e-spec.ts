@@ -1,27 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import * as request from 'supertest'
 import { ItemsModule } from '../src/items/items.module'
-import { MongooseModule } from '@nestjs/mongoose'
+import { TypegooseModule } from 'nestjs-typegoose'
 import { GraphQLModule } from '@nestjs/graphql'
-import { Item } from '../src/items/interfaces/item.interface'
+import { Item } from '../src/items/items.schema'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ReturnModelType } from '@typegoose/typegoose'
 import {
   NestFastifyApplication,
   FastifyAdapter,
 } from '@nestjs/platform-fastify'
+import { AppModule } from '../src/app.module'
 
 describe('Items Controller (e2e)', () => {
   let app: NestFastifyApplication
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [
-        ItemsModule,
-        MongooseModule.forRoot(`${process.env.MONGO_URL}/nestgraphqltesting`, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
-        }),
-        GraphQLModule.forRoot({ autoSchemaFile: 'schema.gql' }),
-      ],
+      imports: [AppModule],
     }).compile()
 
     app = moduleFixture.createNestApplication(new FastifyAdapter())
@@ -36,15 +32,17 @@ describe('Items Controller (e2e)', () => {
     await app.close()
   })
 
-  const item: Item = {
+  type ItemType = ReturnModelType<typeof Item>
+
+  const item: ItemType = {
     title: 'Great item',
     price: 10,
     description: 'Description of this great item',
   }
 
-  let id: string = ''
+  let id = ''
 
-  const updatedItem: Item = {
+  const updatedItem: ItemType = {
     title: 'Great updated item',
     price: 20,
     description: 'Updated description of this great item',
@@ -75,7 +73,7 @@ describe('Items Controller (e2e)', () => {
       .expect(({ body }) => {
         console.log(body)
         const data = body.data.createItem
-        id = data.id
+        ;({ id } = data)
         expect(data.title).toBe(item.title)
         expect(data.price).toBe(item.price)
         expect(data.description).toBe(item.description)

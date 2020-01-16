@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { Model } from 'mongoose'
+import { ReturnModelType } from '@typegoose/typegoose'
 
-import { User } from './interfaces/users.interface'
+import { User } from './users.schema'
 import { UserInput } from './dto/user-input.dto'
 import { UserShow } from './dto/user-show.dto'
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel('User') private userModel: Model<User>) {}
+  constructor(
+    @InjectModel('User') private userModel: ReturnModelType<typeof User>,
+  ) {}
 
   async findAll(): Promise<UserShow[]> {
     return await this.userModel.find().exec()

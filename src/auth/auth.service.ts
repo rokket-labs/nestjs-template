@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { InjectModel } from '@nestjs/mongoose'
-import { Model } from 'mongoose'
+import { ReturnModelType } from '@typegoose/typegoose'
 import * as bcryptjs from 'bcryptjs'
 
-import { User } from 'src/users/interfaces/users.interface'
+import { User } from 'src/users/users.schema'
 import { UserShow } from '../users/dto/user-show.dto'
 import { UserInput } from 'src/users/dto/user-input.dto'
 import { Token } from './interfaces/token.interface'
@@ -12,8 +12,8 @@ import { Token } from './interfaces/token.interface'
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel('User') private userModel: Model<User>,
-    private readonly jwt: JwtService
+    @InjectModel('User') private userModel: ReturnModelType<typeof User>,
+    private readonly jwt: JwtService,
   ) {}
 
   async login(user: UserShow): Promise<Token> {

@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common'
-import { MongooseModule } from '@nestjs/mongoose'
+import { TypegooseModule } from 'nestjs-typegoose'
 
 import { ItemsService } from './items.service'
 import { ItemsResolver } from './items.resolver'
-import { ItemSchema } from './items.schema'
+import { Item } from './items.schema'
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'Item', schema: ItemSchema }])],
+  imports: [TypegooseModule.forFeature([Item])],
   providers: [ItemsService, ItemsResolver],
 })
 export class ItemsModule {}

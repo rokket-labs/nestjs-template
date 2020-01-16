@@ -3,9 +3,9 @@ import { ObjectType, Field, ID } from 'type-graphql'
 @ObjectType()
 export class UserShow {
   @Field(() => ID)
-  readonly id: number
+  readonly id?: number
   @Field()
-  readonly email: string
+  readonly email?: string
   @Field()
   readonly firstName?: string
   @Field()

@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { getModelToken } from '@nestjs/mongoose'
-import * as mongoose from 'mongoose'
+import { getModelForClass } from '@typegoose/typegoose'
 
 import { ItemsResolver } from './items.resolver'
 import { ItemsService } from './items.service'
-import { ItemSchema } from './items.schema'
+import { Item } from './items.schema'
 
-const ItemModel = mongoose.model('Item', ItemSchema)
+const ItemModel = getModelForClass(Item)
 
 describe('ItemsResolver', () => {
   let resolver: ItemsResolver

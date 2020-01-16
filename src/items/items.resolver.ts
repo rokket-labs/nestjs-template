@@ -3,7 +3,7 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 
 import { ItemsService } from './items.service'
 import { ItemType } from './dto/create-item.dto'
-import { ItemInput } from './input-items.input'
+import { ItemInput } from './dto/input-items.input'
 import { GqlAuthGuard } from 'src/auth/grapqhl-auth.guard'
 
 @Resolver('Items')
@@ -29,7 +29,7 @@ export class ItemsResolver {
   @Mutation(() => ItemType)
   async updateItem(
     @Args('id') id: string,
-    @Args('input') input: ItemInput
+    @Args('input') input: ItemInput,
   ): Promise<ItemInput> {
     return this.itemsService.update(id, input)
   }

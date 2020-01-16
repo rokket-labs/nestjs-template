@@ -1,10 +1,16 @@
-import * as mongoose from 'mongoose'
+import { prop, Typegoose } from '@typegoose/typegoose'
 
-export const UserSchema = new mongoose.Schema({
-  email: { type: String, unique: true },
-  firstName: String,
-  lastName: String,
-  password: String,
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-})
+export class User extends Typegoose {
+  @prop({ unique: true })
+  email: string
+  @prop()
+  firstName: string
+  @prop()
+  lastName: string
+  @prop()
+  password: string
+  @prop({ default: Date.now })
+  createdAt: Date
+  @prop({ default: Date.now })
+  updatedAt: Date
+}

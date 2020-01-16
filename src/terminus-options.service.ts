@@ -4,6 +4,7 @@ import {
   DNSHealthIndicator,
   TerminusModuleOptions,
   MongooseHealthIndicator,
+  HealthIndicatorResult,
 } from '@nestjs/terminus'
 import { Injectable } from '@nestjs/common'
 
@@ -18,8 +19,10 @@ export class TerminusOptionsService implements TerminusOptionsFactory {
     const healthEndpoint: TerminusEndpoint = {
       url: '/health',
       healthIndicators: [
-        async () => this.dns.pingCheck('google', 'https://google.com'),
-        async () => this.mongoose.pingCheck('mongo', { timeout: 3000 }),
+        async (): Promise<HealthIndicatorResult> =>
+          this.dns.pingCheck('google', 'https://google.com'),
+        async (): Promise<HealthIndicatorResult> =>
+          this.mongoose.pingCheck('mongo', { timeout: 3000 }),
       ],
     }
     return {
