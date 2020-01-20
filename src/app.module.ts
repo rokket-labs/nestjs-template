@@ -23,6 +23,7 @@ import { TerminusOptionsService } from './terminus-options.service'
       useFactory: async (config: ConfigService) => ({
         uri: config.get<string>('MONGO_URL', process.env.MONGO_URL),
         useNewUrlParser: true,
+        useCreateIndex: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
       }),
