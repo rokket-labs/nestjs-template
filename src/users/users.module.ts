@@ -6,7 +6,11 @@ import { UsersResolver } from './users.resolver'
 import { User } from './users.schema'
 
 @Module({
-  imports: [TypegooseModule.forFeature([User])],
+  imports: [
+    TypegooseModule.forFeature([
+      { typegooseClass: User, schemaOptions: { timestamps: true } },
+    ]),
+  ],
   providers: [UsersService, UsersResolver],
   exports: [UsersService, TypegooseModule],
 })

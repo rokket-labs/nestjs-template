@@ -1,7 +1,7 @@
 import { InputType, Field, ID } from 'type-graphql'
 
 @InputType()
-export class UserLogin {
+export class Login {
   @Field()
   readonly email: string
   @Field()

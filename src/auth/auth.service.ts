@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { InjectModel } from '@nestjs/mongoose'
+import { InjectModel } from 'nestjs-typegoose'
 import { ReturnModelType } from '@typegoose/typegoose'
 import * as bcryptjs from 'bcryptjs'
 
 import { User } from 'src/users/users.schema'
 import { UserShow } from '../users/dto/user-show.dto'
-import { UserInput } from 'src/users/dto/user-input.dto'
+import { UserInput } from 'src/users/users.input'
 import { Token } from './interfaces/token.interface'
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel('User') private userModel: ReturnModelType<typeof User>,
+    @InjectModel(User) private readonly userModel: ReturnModelType<typeof User>,
     private readonly jwt: JwtService,
   ) {}
 
-  async login(user: UserShow): Promise<Token> {
+  async login(user: User): Promise<Token> {
     const payload = { email: user.email, sub: user.id }
     return {
       accessToken: this.jwt.sign(payload),
@@ -29,7 +29,7 @@ export class AuthService {
     return await createdItem.save()
   }
 
-  async validateUser(userInput: UserInput): Promise<UserShow | null> {
+  async validateUser(userInput: UserInput): Promise<User | null> {
     const { email, password } = userInput
 
     const user = await this.userModel.findOne({ email })

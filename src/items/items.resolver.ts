@@ -1,41 +1,41 @@
 import { UseGuards } from '@nestjs/common'
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 
+import { Item } from './items.schema'
 import { ItemsService } from './items.service'
-import { ItemType } from './dto/create-item.dto'
-import { ItemInput } from './dto/input-items.input'
+import { ItemInput } from './items.input'
 import { GqlAuthGuard } from 'src/auth/grapqhl-auth.guard'
 
 @Resolver('Items')
 export class ItemsResolver {
   constructor(private readonly itemsService: ItemsService) {}
 
-  @Query(() => [ItemType])
-  async items(): Promise<ItemType[]> {
+  @Query(() => [Item])
+  async items(): Promise<Item[]> {
     return this.itemsService.findAll()
   }
 
-  @Query(() => ItemType)
+  @Query(() => Item)
   @UseGuards(GqlAuthGuard)
-  async getItem(@Args('id') id: string): Promise<ItemType> {
+  async getItem(@Args('id') id: string): Promise<Item> {
     return this.itemsService.findOne(id)
   }
 
-  @Mutation(() => ItemType)
-  async createItem(@Args('input') input: ItemInput): Promise<ItemInput> {
+  @Mutation(() => Item)
+  async createItem(@Args('input') input: ItemInput): Promise<Item> {
     return this.itemsService.create(input)
   }
 
-  @Mutation(() => ItemType)
+  @Mutation(() => Item)
   async updateItem(
     @Args('id') id: string,
     @Args('input') input: ItemInput,
-  ): Promise<ItemInput> {
+  ): Promise<Item> {
     return this.itemsService.update(id, input)
   }
 
-  @Mutation(() => ItemType)
-  async deleteItem(@Args('id') id: string): Promise<ItemInput> {
+  @Mutation(() => Item)
+  async deleteItem(@Args('id') id: string): Promise<Item> {
     return this.itemsService.delete(id)
   }
 

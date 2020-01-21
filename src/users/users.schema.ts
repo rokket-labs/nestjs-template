@@ -1,16 +1,24 @@
 import { prop } from '@typegoose/typegoose'
+import { ObjectType, Field, ID } from 'type-graphql'
 
+@ObjectType()
 export class User {
+  @Field(() => ID)
+  public id!: string
+
+  @Field(() => String)
   @prop({ unique: true })
-  email: string
+  public email!: string
+
+  @Field(() => String)
   @prop()
-  firstName: string
+  public firstName?: string
+
+  @Field(() => String)
   @prop()
-  lastName: string
+  public lastName?: string
+
+  @Field(() => String)
   @prop()
-  password: string
-  @prop({ default: Date.now })
-  createdAt: Date
-  @prop({ default: Date.now })
-  updatedAt: Date
+  public password!: string
 }

@@ -3,32 +3,37 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Item {
+  id: ID!
+  title: String!
+  price: Float!
+  description: String!
+}
+
 input ItemInput {
   title: String!
   price: Int!
   description: String!
 }
 
-type ItemType {
-  id: ID!
-  title: String!
-  price: Int!
-  description: String!
+input Login {
+  email: String!
+  password: String!
 }
 
 type Mutation {
-  createItem(input: ItemInput!): ItemType!
-  updateItem(input: ItemInput!, id: String!): ItemType!
-  deleteItem(id: String!): ItemType!
+  createItem(input: ItemInput!): Item!
+  updateItem(input: ItemInput!, id: String!): Item!
+  deleteItem(id: String!): Item!
   updateUser(input: UserInput!, id: String!): UserShow!
   deleteUser(id: String!): UserShow!
-  login(input: UserLogin!): TokenDto!
+  login(input: Login!): TokenDto!
   signUp(input: UserInput!): UserShow!
 }
 
 type Query {
-  items: [ItemType!]!
-  getItem(id: String!): ItemType!
+  items: [Item!]!
+  getItem(id: String!): Item!
   hello: String!
   users: [UserShow!]!
   getUser(id: String!): UserShow!
@@ -38,16 +43,19 @@ type TokenDto {
   accessToken: String!
 }
 
+type User {
+  id: ID!
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+}
+
 input UserInput {
   email: String!
   password: String!
-  firstName: String!
-  lastName: String!
-}
-
-input UserLogin {
-  email: String!
-  password: String!
+  firstName: String
+  lastName: String
 }
 
 type UserShow {

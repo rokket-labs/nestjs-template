@@ -1,10 +1,20 @@
 import { prop } from '@typegoose/typegoose'
+import { ObjectType, Field, ID } from 'type-graphql'
 
+@ObjectType()
 export class Item {
+  @Field(() => ID)
+  public id!: string
+
+  @Field(() => String)
   @prop()
-  title: string
+  public title!: string
+
+  @Field(() => Number)
   @prop()
-  price: number
+  public price!: number
+
+  @Field(() => String)
   @prop()
-  description: string
+  public description!: string
 }
