@@ -31,4 +31,8 @@ export class ItemsService {
   async update(id: string, item: ItemInput): Promise<Item> {
     return await this.itemModel.findByIdAndUpdate(id, item, { new: true })
   }
+
+  async count(): Promise<number> {
+    return await this.itemModel.count()
+  }
 }

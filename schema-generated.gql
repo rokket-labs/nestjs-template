@@ -21,6 +21,10 @@ input Login {
   password: String!
 }
 
+type Metadata {
+  count: Float!
+}
+
 type Mutation {
   createItem(input: ItemInput!): Item!
   updateItem(input: ItemInput!, id: String!): Item!
@@ -34,6 +38,7 @@ type Mutation {
 type Query {
   allItems: [Item!]!
   Item(id: String!): Item!
+  allItemsMeta: Metadata!
   allUsers: [UserShow!]!
   User(id: String!): UserShow!
 }

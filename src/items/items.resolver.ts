@@ -5,6 +5,7 @@ import { Item } from './items.schema'
 import { ItemsService } from './items.service'
 import { ItemInput } from './items.input'
 import { GqlAuthGuard } from 'src/auth/grapqhl-auth.guard'
+import { Metadata } from 'src/helpers/types/metadata'
 
 @Resolver('Items')
 export class ItemsResolver {
@@ -37,5 +38,11 @@ export class ItemsResolver {
   @Mutation(() => Item)
   async deleteItem(@Args('id') id: string): Promise<Item> {
     return this.itemsService.delete(id)
+  }
+
+  @Query(() => Metadata)
+  async allItemsMeta(): Promise<Metadata> {
+    const count = await this.itemsService.count()
+    return { count }
   }
 }
