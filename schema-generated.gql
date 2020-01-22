@@ -32,11 +32,10 @@ type Mutation {
 }
 
 type Query {
-  items: [Item!]!
-  getItem(id: String!): Item!
-  hello: String!
-  users: [UserShow!]!
-  getUser(id: String!): UserShow!
+  allItems: [Item!]!
+  Item(id: String!): Item!
+  allUsers: [UserShow!]!
+  User(id: String!): UserShow!
 }
 
 type TokenDto {

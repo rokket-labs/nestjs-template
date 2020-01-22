@@ -11,13 +11,13 @@ export class ItemsResolver {
   constructor(private readonly itemsService: ItemsService) {}
 
   @Query(() => [Item])
-  async items(): Promise<Item[]> {
+  async allItems(): Promise<Item[]> {
     return this.itemsService.findAll()
   }
 
   @Query(() => Item)
   @UseGuards(GqlAuthGuard)
-  async getItem(@Args('id') id: string): Promise<Item> {
+  async Item(@Args('id') id: string): Promise<Item> {
     return this.itemsService.findOne(id)
   }
 
@@ -37,10 +37,5 @@ export class ItemsResolver {
   @Mutation(() => Item)
   async deleteItem(@Args('id') id: string): Promise<Item> {
     return this.itemsService.delete(id)
-  }
-
-  @Query(() => String)
-  async hello(): Promise<string> {
-    return 'hello'
   }
 }
