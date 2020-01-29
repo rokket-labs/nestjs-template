@@ -23,4 +23,16 @@ export class OrdersService {
   async find(input: Partial<OrderInput>): Promise<Order[]> {
     return await this.orderModel.find(input).exec()
   }
+
+  async findOne(id: string): Promise<Order> {
+    return await this.orderModel.findOne({ _id: id })
+  }
+
+  async delete(id: string): Promise<Order> {
+    return await this.orderModel.findByIdAndRemove(id)
+  }
+
+  async update(id: string, item: Partial<OrderInput>): Promise<Order> {
+    return await this.orderModel.findByIdAndUpdate(id, item, { new: true })
+  }
 }

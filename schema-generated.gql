@@ -29,8 +29,9 @@ type Metadata {
 type Mutation {
   createItem(input: ItemInput!): Item!
   updateItem(input: ItemInput!, id: String!): Item!
-  deleteItem(id: String!): Item!
+  deleteItem(id: String!): Order!
   createOrder(input: OrderInput!): Order!
+  updateOrder(input: OrderInput!, id: String!): Order!
   updateUser(input: UserInput!, id: String!): User!
   deleteUser(id: String!): User!
   login(input: Login!): TokenDto!
@@ -55,6 +56,7 @@ type Query {
   Item(id: String!): Item!
   allItemsMeta: Metadata!
   allOrders: [Order!]!
+  Order(id: String!): Order!
   allUsers: [User!]!
   User(id: String!): User!
 }
