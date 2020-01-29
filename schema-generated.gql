@@ -8,6 +8,7 @@ type Item {
   title: String!
   price: Float!
   description: String!
+  orders: [Order!]!
 }
 
 input ItemInput {
@@ -29,11 +30,11 @@ type Mutation {
   createItem(input: ItemInput!): Item!
   updateItem(input: ItemInput!, id: String!): Item!
   deleteItem(id: String!): Item!
+  createOrder(input: OrderInput!): Order!
   updateUser(input: UserInput!, id: String!): User!
   deleteUser(id: String!): User!
   login(input: Login!): TokenDto!
   signUp(input: UserInput!): User!
-  createOrder(input: OrderInput!): Order!
 }
 
 type Order {
@@ -53,9 +54,9 @@ type Query {
   allItems: [Item!]!
   Item(id: String!): Item!
   allItemsMeta: Metadata!
+  allOrders: [Order!]!
   allUsers: [User!]!
   User(id: String!): User!
-  allOrders: [Order!]!
 }
 
 """User role for permissions"""

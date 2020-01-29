@@ -19,4 +19,8 @@ export class OrdersService {
   async findAll(): Promise<Order[]> {
     return await this.orderModel.find().exec()
   }
+
+  async find(input: Partial<OrderInput>): Promise<Order[]> {
+    return await this.orderModel.find(input).exec()
+  }
 }

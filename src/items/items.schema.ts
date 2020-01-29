@@ -1,5 +1,6 @@
 import { prop } from '@typegoose/typegoose'
 import { ObjectType, Field, ID } from 'type-graphql'
+import { Order } from 'src/orders/orders.schema'
 
 @ObjectType()
 export class Item {
@@ -17,4 +18,7 @@ export class Item {
   @Field(() => String)
   @prop()
   public description!: string
+
+  @Field(() => [Order])
+  public orders?: Order[]
 }
