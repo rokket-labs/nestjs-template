@@ -76,6 +76,7 @@ type User {
   firstName: String!
   lastName: String!
   roles: [Role!]!
+  orders: [Order!]!
 }
 
 input UserInput {

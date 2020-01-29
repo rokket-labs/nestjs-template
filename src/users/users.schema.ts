@@ -1,6 +1,7 @@
 import { prop, arrayProp } from '@typegoose/typegoose'
 import { ObjectType, Field, ID, registerEnumType } from 'type-graphql'
 import { Exclude } from 'class-transformer'
+import { Order } from 'src/orders/orders.schema'
 
 export enum Role {
   USER = 'USER',
@@ -37,4 +38,7 @@ export class User {
   @Field(() => [Role])
   @arrayProp({ items: String, enum: Role, default: Role.USER })
   readonly roles?: Role[]
+
+  @Field(() => [Order])
+  public orders?: Order[]
 }
