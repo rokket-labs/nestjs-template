@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { InjectModel } from 'nestjs-typegoose'
-import { ReturnModelType } from '@typegoose/typegoose'
 import * as bcryptjs from 'bcryptjs'
 
 import { User } from 'src/users/users.schema'
 import { UserInput } from 'src/users/users.input'
 import { Token } from './interfaces/token.interface'
+import { Payload } from './interfaces/payload.interface'
+import { UsersService } from 'src/users/users.service'
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel(User) private readonly userModel: ReturnModelType<typeof User>,
+    private readonly usersService: UsersService,
     private readonly jwt: JwtService,
   ) {}
 
   async login(user: User): Promise<Token> {
-    const payload = { email: user.email, sub: user.id }
+    const payload = { sub: user.id, user }
     return {
       accessToken: this.jwt.sign(payload),
     }
@@ -24,14 +24,13 @@ export class AuthService {
 
   async signUp(createUserDto: UserInput): Promise<User> {
     const password = await bcryptjs.hash(createUserDto.password, 10)
-    const createdItem = new this.userModel({ ...createUserDto, password })
-    return await createdItem.save()
+    return this.usersService.create({ ...createUserDto, password })
   }
 
   async validateUser(userInput: UserInput): Promise<User | null> {
     const { email, password } = userInput
 
-    const user = await this.userModel.findOne({ email })
+    const user = await this.usersService.findByEmail(email)
 
     if (!user) return null
 
@@ -41,7 +40,7 @@ export class AuthService {
   }
 
   async validate({ id }): Promise<User | null> {
-    const user = await this.userModel.findOne({ _id: id })
+    const user = await this.usersService.findOne(id)
     if (!user) throw Error('Authenticate validation error')
     return user
   }
