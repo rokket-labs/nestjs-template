@@ -2,32 +2,32 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 
 import { UsersService } from './users.service'
 import { UserInput } from './users.input'
-import { UserShow } from './dto/user-show.dto'
+import { User } from './users.schema'
 
-@Resolver('Users')
+@Resolver(User)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Query(() => [UserShow])
-  async allUsers(): Promise<UserShow[]> {
+  @Query(() => [User])
+  async allUsers(): Promise<User[]> {
     return this.usersService.findAll()
   }
 
-  @Query(() => UserShow)
-  async User(@Args('id') id: string): Promise<UserShow> {
+  @Query(() => User)
+  async User(@Args('id') id: string): Promise<User> {
     return this.usersService.findOne(id)
   }
 
-  @Mutation(() => UserShow)
+  @Mutation(() => User)
   async updateUser(
     @Args('id') id: string,
     @Args('input') input: UserInput,
-  ): Promise<UserShow> {
+  ): Promise<User> {
     return this.usersService.update(id, input)
   }
 
-  @Mutation(() => UserShow)
-  async deleteUser(@Args('id') id: string): Promise<UserShow> {
+  @Mutation(() => User)
+  async deleteUser(@Args('id') id: string): Promise<User> {
     return this.usersService.delete(id)
   }
 }
