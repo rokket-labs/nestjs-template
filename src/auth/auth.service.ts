@@ -5,7 +5,6 @@ import { ReturnModelType } from '@typegoose/typegoose'
 import * as bcryptjs from 'bcryptjs'
 
 import { User } from 'src/users/users.schema'
-import { UserShow } from '../users/dto/user-show.dto'
 import { UserInput } from 'src/users/users.input'
 import { Token } from './interfaces/token.interface'
 
@@ -23,7 +22,7 @@ export class AuthService {
     }
   }
 
-  async signUp(createUserDto: UserInput): Promise<UserShow> {
+  async signUp(createUserDto: UserInput): Promise<User> {
     const password = await bcryptjs.hash(createUserDto.password, 10)
     const createdItem = new this.userModel({ ...createUserDto, password })
     return await createdItem.save()
@@ -41,7 +40,7 @@ export class AuthService {
     return valid ? user : null
   }
 
-  async validate({ id }): Promise<UserShow | null> {
+  async validate({ id }): Promise<User | null> {
     const user = await this.userModel.findOne({ _id: id })
     if (!user) throw Error('Authenticate validation error')
     return user

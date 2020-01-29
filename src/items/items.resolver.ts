@@ -1,15 +1,28 @@
-import { UseGuards } from '@nestjs/common'
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
+import { UseGuards, Inject, forwardRef } from '@nestjs/common'
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveProperty,
+  Parent,
+} from '@nestjs/graphql'
 
 import { Item } from './items.schema'
 import { ItemsService } from './items.service'
 import { ItemInput } from './items.input'
 import { GqlAuthGuard } from 'src/auth/grapqhl-auth.guard'
 import { Metadata } from 'src/helpers/types/metadata'
+import { OrdersService } from 'src/orders/orders.service'
+import { Order } from 'src/orders/orders.schema'
 
-@Resolver('Items')
+@Resolver(Item)
 export class ItemsResolver {
-  constructor(private readonly itemsService: ItemsService) {}
+  constructor(
+    private readonly itemsService: ItemsService,
+    @Inject(forwardRef(() => OrdersService))
+    private readonly ordersService: OrdersService,
+  ) {}
 
   @Query(() => [Item])
   async allItems(): Promise<Item[]> {
@@ -20,6 +33,12 @@ export class ItemsResolver {
   @UseGuards(GqlAuthGuard)
   async Item(@Args('id') id: string): Promise<Item> {
     return this.itemsService.findOne(id)
+  }
+
+  @Query(() => Metadata)
+  async allItemsMeta(): Promise<Metadata> {
+    const count = await this.itemsService.count()
+    return { count }
   }
 
   @Mutation(() => Item)
@@ -40,9 +59,9 @@ export class ItemsResolver {
     return this.itemsService.delete(id)
   }
 
-  @Query(() => Metadata)
-  async allItemsMeta(): Promise<Metadata> {
-    const count = await this.itemsService.count()
-    return { count }
+  @ResolveProperty()
+  async orders(@Parent() item): Promise<Order[]> {
+    const { id } = item
+    return await this.ordersService.find({ item: id })
   }
 }

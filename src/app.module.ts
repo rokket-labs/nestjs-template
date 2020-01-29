@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { TerminusOptionsService } from './terminus-options.service'
+import { OrdersModule } from './orders/orders.module'
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { TerminusOptionsService } from './terminus-options.service'
     ItemsModule,
     AuthModule,
     UsersModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
