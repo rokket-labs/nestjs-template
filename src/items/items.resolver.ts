@@ -7,7 +7,7 @@ import { ItemInput } from './items.input'
 import { GqlAuthGuard } from 'src/auth/grapqhl-auth.guard'
 import { Metadata } from 'src/helpers/types/metadata'
 
-@Resolver('Items')
+@Resolver(Item)
 export class ItemsResolver {
   constructor(private readonly itemsService: ItemsService) {}
 
@@ -20,6 +20,12 @@ export class ItemsResolver {
   @UseGuards(GqlAuthGuard)
   async Item(@Args('id') id: string): Promise<Item> {
     return this.itemsService.findOne(id)
+  }
+
+  @Query(() => Metadata)
+  async allItemsMeta(): Promise<Metadata> {
+    const count = await this.itemsService.count()
+    return { count }
   }
 
   @Mutation(() => Item)
@@ -38,11 +44,5 @@ export class ItemsResolver {
   @Mutation(() => Item)
   async deleteItem(@Args('id') id: string): Promise<Item> {
     return this.itemsService.delete(id)
-  }
-
-  @Query(() => Metadata)
-  async allItemsMeta(): Promise<Metadata> {
-    const count = await this.itemsService.count()
-    return { count }
   }
 }
