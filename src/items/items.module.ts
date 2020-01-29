@@ -8,5 +8,6 @@ import { Item } from './items.schema'
 @Module({
   imports: [TypegooseModule.forFeature([Item])],
   providers: [ItemsService, ItemsResolver],
+  exports: [ItemsService],
 })
 export class ItemsModule {}

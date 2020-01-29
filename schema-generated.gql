@@ -29,18 +29,40 @@ type Mutation {
   createItem(input: ItemInput!): Item!
   updateItem(input: ItemInput!, id: String!): Item!
   deleteItem(id: String!): Item!
-  updateUser(input: UserInput!, id: String!): UserShow!
-  deleteUser(id: String!): UserShow!
+  updateUser(input: UserInput!, id: String!): User!
+  deleteUser(id: String!): User!
   login(input: Login!): TokenDto!
-  signUp(input: UserInput!): UserShow!
+  signUp(input: UserInput!): User!
+  createOrder(input: OrderInput!): Order!
+}
+
+type Order {
+  id: ID!
+  user: User!
+  item: Item!
+  quantity: Float!
+}
+
+input OrderInput {
+  item: String!
+  user: String!
+  quantity: Float!
 }
 
 type Query {
   allItems: [Item!]!
   Item(id: String!): Item!
   allItemsMeta: Metadata!
-  allUsers: [UserShow!]!
-  User(id: String!): UserShow!
+  allUsers: [User!]!
+  User(id: String!): User!
+  allOrders: [Order!]!
+}
+
+"""User role for permissions"""
+enum Role {
+  USER
+  ADMIN
+  GUEST
 }
 
 type TokenDto {
@@ -52,7 +74,7 @@ type User {
   email: String!
   firstName: String!
   lastName: String!
-  password: String!
+  roles: [Role!]!
 }
 
 input UserInput {
@@ -60,11 +82,4 @@ input UserInput {
   password: String!
   firstName: String
   lastName: String
-}
-
-type UserShow {
-  id: ID!
-  email: String!
-  firstName: String!
-  lastName: String!
 }
