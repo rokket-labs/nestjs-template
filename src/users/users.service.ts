@@ -16,7 +16,7 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<User> {
-    return await this.userModel.findOne(id)
+    return await this.userModel.findOne({ _id: id })
   }
 
   async delete(id: string): Promise<User> {
