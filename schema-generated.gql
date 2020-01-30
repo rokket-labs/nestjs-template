@@ -8,7 +8,7 @@ type Item {
   title: String!
   price: Float!
   description: String!
-  orders: [Order!]!
+  orders: [Order]
 }
 
 input ItemInput {

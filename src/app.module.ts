@@ -11,6 +11,7 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { TerminusOptionsService } from './terminus-options.service'
 import { OrdersModule } from './orders/orders.module'
+import { EventsModule } from './events/events.module'
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { OrdersModule } from './orders/orders.module'
     AuthModule,
     UsersModule,
     OrdersModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
