@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import * as bcryptjs from 'bcryptjs'
+import { omit } from 'ramda'
 
 import { User } from 'src/users/users.schema'
 import { UserInput } from 'src/users/users.input'
 import { Token } from './interfaces/token.interface'
 import { Payload } from './interfaces/payload.interface'
 import { UsersService } from 'src/users/users.service'
+import { cleanUserModel } from 'src/helpers/cleanUserModel'
 
 @Injectable()
 export class AuthService {
@@ -16,7 +18,10 @@ export class AuthService {
   ) {}
 
   async login(user: User): Promise<Token> {
-    const payload = { sub: user.id, user }
+    const payload = {
+      sub: user.id,
+      user: cleanUserModel(user),
+    }
     return {
       accessToken: this.jwt.sign(payload),
     }
@@ -28,15 +33,7 @@ export class AuthService {
   }
 
   async validateUser(userInput: UserInput): Promise<User | null> {
-    const { email, password } = userInput
-
-    const user = await this.usersService.findByEmail(email)
-
-    if (!user) return null
-
-    const valid = await bcryptjs.compare(password, user.password)
-
-    return valid ? user : null
+    return await this.usersService.validate(userInput)
   }
 
   async validate({ id }): Promise<User | null> {

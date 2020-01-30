@@ -6,14 +6,25 @@ import {
   ResolveProperty,
   Parent,
 } from '@nestjs/graphql'
-import { OrdersService } from './orders.service'
-import { Order } from './orders.schema'
-import { OrderInput } from './orders.input'
+import { UseRoles, ACGuard } from 'nest-access-control'
+
 import { User } from 'src/users/users.schema'
-import { Inject, forwardRef } from '@nestjs/common'
+import { Inject, forwardRef, UseGuards, SetMetadata } from '@nestjs/common'
 import { UsersService } from 'src/users/users.service'
 import { ItemsService } from 'src/items/items.service'
 import { Item } from 'src/items/items.schema'
+
+import { OrdersService } from './orders.service'
+import { Order } from './orders.schema'
+import { OrderInput, OrderUpdate } from './orders.input'
+import { GqlAuthGuard } from 'src/auth/grapqhl-auth.guard'
+import { RolesGuard } from 'src/auth/roles.guard'
+import {
+  UserRoles,
+  UserId,
+} from 'src/helpers/decorators/graphql-user.decorator'
+import { Roles as RolesType } from 'src/app.roles'
+import { CurrentUser } from 'src/helpers/decorators/decorators'
 
 @Resolver(Order)
 export class OrdersResolver {
@@ -35,17 +46,26 @@ export class OrdersResolver {
     return this.ordersService.findOne(id)
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => Order)
   async createOrder(@Args('input') input: OrderInput): Promise<Order> {
     return this.ordersService.create(input)
   }
 
+  @UseGuards(GqlAuthGuard, RolesGuard)
+  @UseRoles({
+    resource: 'order',
+    action: 'update',
+    possession: 'own',
+  })
   @Mutation(() => Order)
   async updateOrder(
     @Args('id') id: string,
-    @Args('input') input: OrderInput,
+    @Args('input') input: OrderUpdate,
+    @CurrentUser() user: User,
   ): Promise<Order> {
-    return this.ordersService.update(id, input)
+    console.log(user)
+    return this.ordersService.update(id, user, input)
   }
 
   @Mutation(() => Order)

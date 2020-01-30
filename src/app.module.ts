@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
 import { TerminusModule } from '@nestjs/terminus'
 import { TypegooseModule } from 'nestjs-typegoose'
+import { AccessControlModule } from 'nest-access-control'
 
 import { ItemsModule } from './items/items.module'
 import { AuthModule } from './auth/auth.module'
@@ -11,6 +12,7 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { TerminusOptionsService } from './terminus-options.service'
 import { OrdersModule } from './orders/orders.module'
+import { roles } from './app.roles'
 
 @Module({
   imports: [
@@ -19,6 +21,7 @@ import { OrdersModule } from './orders/orders.module'
       autoSchemaFile: 'schema-generated.gql',
       context: ({ req, res }) => ({ req, res }),
     }),
+    AccessControlModule.forRoles(roles),
     TypegooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (config: ConfigService) => ({

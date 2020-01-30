@@ -62,6 +62,7 @@ export class ItemsResolver {
   @ResolveProperty()
   async orders(@Parent() item): Promise<Order[]> {
     const { id } = item
+    console.log(id)
     return await this.ordersService.find({ item: id })
   }
 }
