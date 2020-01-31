@@ -11,10 +11,10 @@ const reflector = new Reflector()
  * Remember that the return type is () => boolean, therefore you need to run the function to know its value
  *
  */
-export const CanDoAny = () => {
+export const CanDoAny = (): ParameterDecorator => {
   return (target, key, index): void => {
     Reflect.defineMetadata(WANT_TO_KNOW_IF_CAN_DO_ANY, true, target[key])
-    createParamDecorator((_, [root, args, ctx, info]) => {
+    createParamDecorator(() => {
       return (): Roles[] => reflector.get(CAN_DO_ANY_SYMBOL, target[key])
     })()(target, key, index)
   }
