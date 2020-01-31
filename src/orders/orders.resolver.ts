@@ -64,7 +64,7 @@ export class OrdersResolver {
     action: 'delete',
   })
   @Mutation(() => Order)
-  async deleteItem(
+  async deleteOrder(
     @Args('id') id: string,
     @CurrentUser() user: User,
     @CanDoAny() canDoAny: () => boolean,
