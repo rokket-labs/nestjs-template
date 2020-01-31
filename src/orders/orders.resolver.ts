@@ -6,6 +6,7 @@ import {
   ResolveProperty,
   Parent,
 } from '@nestjs/graphql'
+import { RoleProtected, CanDoAny } from 'nestjs-role-protected'
 
 import { User } from 'src/users/users.schema'
 import { Inject, forwardRef, UseGuards } from '@nestjs/common'
@@ -16,9 +17,7 @@ import { Item } from 'src/items/items.schema'
 import { OrdersService } from './orders.service'
 import { Order } from './orders.schema'
 import { OrderInput, OrderUpdate } from './orders.input'
-import { GqlAuthGuard } from 'src/auth/grapqhl-auth.guard'
-import { RoleProtected } from 'src/auth/roles.guard'
-import { CanDoAny } from 'src/helpers/decorators/graphql-user.decorator'
+import { GqlAuthGuard } from 'src/auth/graphql-auth.guard'
 import { CurrentUser } from 'src/helpers/decorators/decorators'
 
 @Resolver(Order)

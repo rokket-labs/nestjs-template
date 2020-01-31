@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
 import { TerminusModule } from '@nestjs/terminus'
 import { TypegooseModule } from 'nestjs-typegoose'
-import { AccessControlModule } from 'nest-access-control'
+import { AccessControlModule } from 'nestjs-role-protected'
 
 import { ItemsModule } from './items/items.module'
 import { AuthModule } from './auth/auth.module'

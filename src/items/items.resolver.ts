@@ -7,15 +7,15 @@ import {
   ResolveProperty,
   Parent,
 } from '@nestjs/graphql'
+import { RoleProtected } from 'nestjs-role-protected'
 
 import { Item } from './items.schema'
 import { ItemsService } from './items.service'
 import { ItemInput } from './items.input'
-import { GqlAuthGuard } from 'src/auth/grapqhl-auth.guard'
+import { GqlAuthGuard } from 'src/auth/graphql-auth.guard'
 import { Metadata } from 'src/helpers/types/metadata'
 import { OrdersService } from 'src/orders/orders.service'
 import { Order } from 'src/orders/orders.schema'
-import { RoleProtected } from 'src/auth/roles.guard'
 
 @Resolver(Item)
 export class ItemsResolver {

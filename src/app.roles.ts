@@ -1,4 +1,4 @@
-import { RolesBuilder } from 'nest-access-control'
+import { RolesBuilder } from 'nestjs-role-protected'
 
 export enum Roles {
   USER = 'USER',
