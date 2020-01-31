@@ -60,9 +60,16 @@ export class OrdersResolver {
     return this.ordersService.update(id, user, input, canDoAny())
   }
 
+  @RoleProtected({
+    action: 'delete',
+  })
   @Mutation(() => Order)
-  async deleteItem(@Args('id') id: string): Promise<Order> {
-    return this.ordersService.delete(id)
+  async deleteItem(
+    @Args('id') id: string,
+    @CurrentUser() user: User,
+    @CanDoAny() canDoAny: () => boolean,
+  ): Promise<Order> {
+    return this.ordersService.delete(id, user, canDoAny())
   }
 
   @ResolveProperty()

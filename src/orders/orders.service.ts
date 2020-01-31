@@ -30,8 +30,9 @@ export class OrdersService {
     return await this.orderModel.findOne({ _id: id })
   }
 
-  async delete(id: string): Promise<Order> {
-    return await this.orderModel.findByIdAndRemove(id)
+  async delete(id: string, user: User, canDoAny: boolean): Promise<Order> {
+    if (canDoAny) return await this.orderModel.findByIdAndRemove(id)
+    return await this.orderModel.findOneAndRemove({ id, user: user.id })
   }
 
   async update(
