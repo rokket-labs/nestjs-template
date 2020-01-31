@@ -19,6 +19,6 @@ export class Item {
   @prop()
   public description!: string
 
-  @Field(() => [Order])
+  @Field(() => [Order], { nullable: 'itemsAndList' })
   public orders?: Order[]
 }
