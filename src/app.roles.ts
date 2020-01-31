@@ -14,6 +14,12 @@ const rolesPermissions = {
       'update:any': ['*'],
       'delete:any': ['*'],
     },
+    Item: {
+      'create:any': ['*'],
+      'read:any': ['*'],
+      'update:any': ['*'],
+      'delete:any': ['*'],
+    },
   },
   [Roles.USER]: {
     Order: {

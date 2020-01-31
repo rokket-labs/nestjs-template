@@ -29,9 +29,10 @@ type Metadata {
 type Mutation {
   createItem(input: ItemInput!): Item!
   updateItem(input: ItemInput!, id: String!): Item!
-  deleteItem(id: String!): Order!
+  deleteItem(id: String!): Item!
   createOrder(input: OrderInput!): Order!
   updateOrder(input: OrderUpdate!, id: String!): Order!
+  deleteOrder(id: String!): Order!
   updateUser(input: UserInput!, id: String!): User!
   deleteUser(id: String!): User!
   login(input: Login!): TokenDto!

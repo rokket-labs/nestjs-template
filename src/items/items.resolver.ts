@@ -15,6 +15,7 @@ import { GqlAuthGuard } from 'src/auth/grapqhl-auth.guard'
 import { Metadata } from 'src/helpers/types/metadata'
 import { OrdersService } from 'src/orders/orders.service'
 import { Order } from 'src/orders/orders.schema'
+import { RoleProtected } from 'src/auth/roles.guard'
 
 @Resolver(Item)
 export class ItemsResolver {
@@ -46,6 +47,10 @@ export class ItemsResolver {
     return this.itemsService.create(input)
   }
 
+  @RoleProtected({
+    action: 'update',
+    possession: 'any',
+  })
   @Mutation(() => Item)
   async updateItem(
     @Args('id') id: string,
@@ -54,6 +59,10 @@ export class ItemsResolver {
     return this.itemsService.update(id, input)
   }
 
+  @RoleProtected({
+    action: 'delete',
+    possession: 'any',
+  })
   @Mutation(() => Item)
   async deleteItem(@Args('id') id: string): Promise<Item> {
     return this.itemsService.delete(id)

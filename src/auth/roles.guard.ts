@@ -90,7 +90,7 @@ export class RolesGuard implements CanActivate {
       })
       Reflect.defineMetadata(CAN_DO_ANY_SYMBOL, canDoAny, handler)
     }
-
+    console.log(hasRoles, roles)
     return hasRoles
   }
 }
