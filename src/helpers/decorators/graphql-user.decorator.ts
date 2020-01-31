@@ -1,19 +1,21 @@
 import { createParamDecorator } from '@nestjs/common'
+import { Reflector } from '@nestjs/core'
+import { Roles } from 'src/app.roles'
+import { CAN_DO_ANY_SYMBOL, WANT_TO_KNOW_IF_CAN_DO_ANY } from '../constants'
+
+const reflector = new Reflector()
 
 /**
- * Access the user roles from the request object i.e `req.user.roles`.
+ * Returns a callback function that returns whether or not this user can perform [action] to any document
  *
- * You can pass an optional property key to the decorator to get it from the user object
- * e.g `@UserRoles('premissions')` will return the `req.user.premissions` instead.
+ * Remember that the return type is () => boolean, therefore you need to run the function to know its value
+ *
  */
-export const UserRoles = createParamDecorator(
-  (data, [root, args, ctx, info]) => {
-    console.log(data)
-    return ctx.req.user?.roles
-  },
-)
-
-export const UserId = createParamDecorator((data, [root, args, ctx, info]) => {
-  // console.log(data, root, args, ctx, info)
-  return ctx.req.user.id
-})
+export const CanDoAny = () => {
+  return (target, key, index): void => {
+    Reflect.defineMetadata(WANT_TO_KNOW_IF_CAN_DO_ANY, true, target[key])
+    createParamDecorator((_, [root, args, ctx, info]) => {
+      return (): Roles[] => reflector.get(CAN_DO_ANY_SYMBOL, target[key])
+    })()(target, key, index)
+  }
+}

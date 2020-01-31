@@ -8,7 +8,7 @@ export enum Roles {
 
 const rolesPermissions = {
   [Roles.ADMIN]: {
-    order: {
+    Order: {
       'create:any': ['*'],
       'read:any': ['*'],
       'update:any': ['*'],
@@ -16,10 +16,11 @@ const rolesPermissions = {
     },
   },
   [Roles.USER]: {
-    order: {
+    Order: {
       'create:own': ['*'],
       'read:own': ['*'],
       'delete:own': ['*'],
+      'update:own': ['*'],
     },
   },
 }

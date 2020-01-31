@@ -34,9 +34,13 @@ export class OrdersService {
     return await this.orderModel.findByIdAndRemove(id)
   }
 
-  async update(id: string, user: User, item: OrderUpdate): Promise<Order> {
-    const { roles } = user
-    if (roles.includes(Roles.ADMIN))
+  async update(
+    id: string,
+    user: User,
+    item: OrderUpdate,
+    canDoAny: boolean,
+  ): Promise<Order> {
+    if (canDoAny)
       return await this.orderModel.findByIdAndUpdate(id, item, { new: true })
 
     return await this.orderModel.findOneAndUpdate({ id, user: user.id }, item, {
