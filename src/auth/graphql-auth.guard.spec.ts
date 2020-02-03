@@ -1,4 +1,4 @@
-import { GqlAuthGuard } from './grapqhl-auth.guard'
+import { GqlAuthGuard } from './graphql-auth.guard'
 
 describe('AuthGuard', () => {
   it('should be defined', () => {

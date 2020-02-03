@@ -11,3 +11,12 @@ export class OrderInput {
   @Field()
   readonly quantity: number
 }
+
+@InputType()
+export class OrderUpdate {
+  @Field({ nullable: true })
+  readonly item: string
+
+  @Field({ nullable: true })
+  readonly quantity: number
+}
