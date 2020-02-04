@@ -10,7 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "prestart": "yarn copy:templates",
     "start": "yarn start:dev",
-    "start:dev": "node dist/main",
+    "start:dev": "NODE_ENV=development node dist/main",
     "start:debug": "nest start --debug --watch",
     "start:prod": "NODE_ENV=production node dist/main",
     "lint": "tslint -p tsconfig.json -c tslint.json",
