@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
 import { TerminusModule } from '@nestjs/terminus'
 import { TypegooseModule } from 'nestjs-typegoose'
+import { AccessControlModule } from 'nestjs-role-protected'
 
 import { ItemsModule } from './items/items.module'
 import { AuthModule } from './auth/auth.module'
@@ -11,6 +12,10 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { TerminusOptionsService } from './terminus-options.service'
 import { OrdersModule } from './orders/orders.module'
+import { roles } from './app.roles'
+import { EventsModule } from './events/events.module'
+import { EmailModule } from './email/email.module'
+import { MailerModule, HandlebarsAdapter } from '@nest-modules/mailer'
 
 @Module({
   imports: [
@@ -19,6 +24,7 @@ import { OrdersModule } from './orders/orders.module'
       autoSchemaFile: 'schema-generated.gql',
       context: ({ req, res }) => ({ req, res }),
     }),
+    AccessControlModule.forRoles(roles),
     TypegooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (config: ConfigService) => ({
@@ -33,10 +39,25 @@ import { OrdersModule } from './orders/orders.module'
     TerminusModule.forRootAsync({
       useClass: TerminusOptionsService,
     }),
+    MailerModule.forRoot({
+      transport: `smtps://${process.env.SMTP_USERNAME}:${process.env.SMTP_PASSWORD}@${process.env.SMTP_DOMAIN}`,
+      defaults: {
+        from: `"Testy Spammer" <${process.env.SMTP_EMAIL_ADDRESS}>`,
+      },
+      template: {
+        dir: `${__dirname}/templates`,
+        adapter: new HandlebarsAdapter(), // or new PugAdapter()
+        options: {
+          strict: true,
+        },
+      },
+    }),
+    EmailModule,
     ItemsModule,
     AuthModule,
     UsersModule,
     OrdersModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
