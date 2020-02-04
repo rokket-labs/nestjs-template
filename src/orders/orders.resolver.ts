@@ -6,14 +6,19 @@ import {
   ResolveProperty,
   Parent,
 } from '@nestjs/graphql'
-import { OrdersService } from './orders.service'
-import { Order } from './orders.schema'
-import { OrderInput } from './orders.input'
+import { RoleProtected, CanDoAny } from 'nestjs-role-protected'
+
 import { User } from 'src/users/users.schema'
-import { Inject, forwardRef } from '@nestjs/common'
+import { Inject, forwardRef, UseGuards } from '@nestjs/common'
 import { UsersService } from 'src/users/users.service'
 import { ItemsService } from 'src/items/items.service'
 import { Item } from 'src/items/items.schema'
+
+import { OrdersService } from './orders.service'
+import { Order } from './orders.schema'
+import { OrderInput, OrderUpdate } from './orders.input'
+import { GqlAuthGuard } from 'src/auth/graphql-auth.guard'
+import { CurrentUser } from 'src/helpers/decorators/decorators'
 
 @Resolver(Order)
 export class OrdersResolver {
@@ -35,22 +40,35 @@ export class OrdersResolver {
     return this.ordersService.findOne(id)
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => Order)
   async createOrder(@Args('input') input: OrderInput): Promise<Order> {
     return this.ordersService.create(input)
   }
 
+  @RoleProtected({
+    action: 'update',
+  })
   @Mutation(() => Order)
   async updateOrder(
     @Args('id') id: string,
-    @Args('input') input: OrderInput,
+    @Args('input') input: OrderUpdate,
+    @CurrentUser() user: User,
+    @CanDoAny() canDoAny: () => boolean,
   ): Promise<Order> {
-    return this.ordersService.update(id, input)
+    return this.ordersService.update(id, user, input, canDoAny())
   }
 
+  @RoleProtected({
+    action: 'delete',
+  })
   @Mutation(() => Order)
-  async deleteItem(@Args('id') id: string): Promise<Order> {
-    return this.ordersService.delete(id)
+  async deleteOrder(
+    @Args('id') id: string,
+    @CurrentUser() user: User,
+    @CanDoAny() canDoAny: () => boolean,
+  ): Promise<Order> {
+    return this.ordersService.delete(id, user, canDoAny())
   }
 
   @ResolveProperty()

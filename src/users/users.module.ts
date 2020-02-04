@@ -14,6 +14,6 @@ import { OrdersModule } from 'src/orders/orders.module'
     forwardRef(() => OrdersModule),
   ],
   providers: [UsersService, UsersResolver],
-  exports: [UsersService, TypegooseModule],
+  exports: [UsersService],
 })
 export class UsersModule {}

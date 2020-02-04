@@ -1,4 +1,4 @@
-import { prop } from '@typegoose/typegoose'
+import { prop, Ref } from '@typegoose/typegoose'
 import { ObjectType, Field, ID } from 'type-graphql'
 import { User } from 'src/users/users.schema'
 import { Item } from 'src/items/items.schema'
@@ -9,12 +9,12 @@ export class Order {
   public id!: string
 
   @Field(() => User)
-  @prop()
-  public user!: string
+  @prop({ ref: 'User' })
+  public user!: Ref<User>
 
   @Field(() => Item)
-  @prop()
-  public item!: string
+  @prop({ ref: 'Item' })
+  public item!: Ref<Item>
 
   @Field(() => Number)
   @prop()

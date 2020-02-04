@@ -7,11 +7,12 @@ import {
   ResolveProperty,
   Parent,
 } from '@nestjs/graphql'
+import { RoleProtected } from 'nestjs-role-protected'
 
 import { Item } from './items.schema'
 import { ItemsService } from './items.service'
 import { ItemInput } from './items.input'
-import { GqlAuthGuard } from 'src/auth/grapqhl-auth.guard'
+import { GqlAuthGuard } from 'src/auth/graphql-auth.guard'
 import { Metadata } from 'src/helpers/types/metadata'
 import { OrdersService } from 'src/orders/orders.service'
 import { Order } from 'src/orders/orders.schema'
@@ -46,6 +47,10 @@ export class ItemsResolver {
     return this.itemsService.create(input)
   }
 
+  @RoleProtected({
+    action: 'update',
+    possession: 'any',
+  })
   @Mutation(() => Item)
   async updateItem(
     @Args('id') id: string,
@@ -54,6 +59,10 @@ export class ItemsResolver {
     return this.itemsService.update(id, input)
   }
 
+  @RoleProtected({
+    action: 'delete',
+    possession: 'any',
+  })
   @Mutation(() => Item)
   async deleteItem(@Args('id') id: string): Promise<Item> {
     return this.itemsService.delete(id)
@@ -62,6 +71,7 @@ export class ItemsResolver {
   @ResolveProperty()
   async orders(@Parent() item): Promise<Order[]> {
     const { id } = item
+    console.log(id)
     return await this.ordersService.find({ item: id })
   }
 }
