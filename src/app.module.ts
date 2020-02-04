@@ -14,6 +14,8 @@ import { TerminusOptionsService } from './terminus-options.service'
 import { OrdersModule } from './orders/orders.module'
 import { roles } from './app.roles'
 import { EventsModule } from './events/events.module'
+import { EmailModule } from './email/email.module'
+import { MailerModule, HandlebarsAdapter } from '@nest-modules/mailer'
 
 @Module({
   imports: [
@@ -37,6 +39,20 @@ import { EventsModule } from './events/events.module'
     TerminusModule.forRootAsync({
       useClass: TerminusOptionsService,
     }),
+    MailerModule.forRoot({
+      transport: `smtps://${process.env.SMTP_USERNAME}:${process.env.SMTP_PASSWORD}@${process.env.SMTP_DOMAIN}`,
+      defaults: {
+        from: `"Testy Spammer" <${process.env.SMTP_EMAIL_ADDRESS}>`,
+      },
+      template: {
+        dir: `${__dirname}/templates`,
+        adapter: new HandlebarsAdapter(), // or new PugAdapter()
+        options: {
+          strict: true,
+        },
+      },
+    }),
+    EmailModule,
     ItemsModule,
     AuthModule,
     UsersModule,
