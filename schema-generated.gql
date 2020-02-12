@@ -3,6 +3,11 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type File {
+  url: ID!
+  success: Boolean!
+}
+
 type Item {
   id: ID!
   title: String!
@@ -37,6 +42,8 @@ type Mutation {
   deleteUser(id: String!): User!
   login(input: Login!): TokenDto!
   signUp(input: UserInput!): User!
+  uploadFile(file: Upload!): File!
+  removeFile(fileUrl: String!): Boolean!
 }
 
 type Order {
@@ -77,6 +84,9 @@ enum Roles {
 type TokenDto {
   accessToken: String!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 type User {
   id: ID!
