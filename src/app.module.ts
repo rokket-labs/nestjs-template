@@ -16,6 +16,7 @@ import { roles } from './app.roles'
 import { EventsModule } from './events/events.module'
 import { EmailModule } from './email/email.module'
 import { MailerModule, HandlebarsAdapter } from '@nest-modules/mailer'
+import { FilesModule } from './files/files.module'
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { MailerModule, HandlebarsAdapter } from '@nest-modules/mailer'
     UsersModule,
     OrdersModule,
     EventsModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
