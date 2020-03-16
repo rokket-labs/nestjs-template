@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { InjectModel } from 'nestjs-typegoose'
-import { Order } from './orders.schema'
 import { ReturnModelType } from '@typegoose/typegoose'
+import { InjectModel } from 'nestjs-typegoose'
+import { User } from 'src/users/users.entity'
+
+import { Order } from './orders.entity'
 import { OrderInput, OrderUpdate } from './orders.input'
-import { User } from 'src/users/users.schema'
-import { Roles } from 'src/app.roles'
 
 @Injectable()
 export class OrdersService {

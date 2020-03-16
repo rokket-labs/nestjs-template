@@ -1,16 +1,23 @@
-import { InputType, Field } from 'type-graphql'
+import { InputType } from '@nestjs/graphql'
+import { Exclude } from 'class-transformer'
+import { IsArray, IsEnum } from 'class-validator'
+import { Roles } from 'src/app.roles'
 
 @InputType()
 export class UserInput {
-  @Field(() => String)
-  readonly email!: string
+  @Exclude()
+  _id?: string
 
-  @Field(() => String)
-  readonly password!: string
+  @Exclude()
+  @IsArray()
+  @IsEnum(Roles, { each: true })
+  roles?: Roles[]
 
-  @Field({ nullable: true })
-  readonly firstName?: string
+  email: string
 
-  @Field({ nullable: true })
-  readonly lastName?: string
+  password: string
+
+  firstName?: string
+
+  lastName?: string
 }

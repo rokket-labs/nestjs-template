@@ -1,10 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing'
 import { getModelToken } from '@nestjs/mongoose'
+import { Test, TestingModule } from '@nestjs/testing'
 import { getModelForClass } from '@typegoose/typegoose'
 
+import { Item } from './items.entity'
 import { ItemsResolver } from './items.resolver'
 import { ItemsService } from './items.service'
-import { Item } from './items.schema'
 
 const ItemModel = getModelForClass(Item)
 

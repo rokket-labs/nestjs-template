@@ -1,13 +1,10 @@
-import { InputType, Field, Int } from 'type-graphql'
+import { InputType } from '@nestjs/graphql'
 
 @InputType()
 export class ItemInput {
-  @Field(() => String)
-  readonly title: string
+  title: string
 
-  @Field(() => Int)
-  readonly price: number
+  price: number
 
-  @Field(() => String)
-  readonly description: string
+  description: string
 }

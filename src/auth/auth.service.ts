@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import * as bcryptjs from 'bcryptjs'
-import { omit } from 'ramda'
-
-import { User } from 'src/users/users.schema'
-import { UserInput } from 'src/users/users.input'
-import { Token } from './interfaces/token.interface'
-import { Payload } from './interfaces/payload.interface'
-import { UsersService } from 'src/users/users.service'
 import { cleanUserModel } from 'src/helpers/cleanUserModel'
+import { User } from 'src/users/users.entity'
+import { UserInput } from 'src/users/users.input'
+import { UsersService } from 'src/users/users.service'
+
+import { Token } from './interfaces/token.interface'
 
 @Injectable()
 export class AuthService {

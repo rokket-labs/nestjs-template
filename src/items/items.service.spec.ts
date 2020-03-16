@@ -1,12 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing'
 import { getModelToken } from '@nestjs/mongoose'
-import * as mongoose from 'mongoose'
+import { Test, TestingModule } from '@nestjs/testing'
 import mockingoose from 'mockingoose'
+import * as mongoose from 'mongoose'
 
+import { Item } from './items.entity'
 import { ItemsService } from './items.service'
-import { ItemSchema } from './items.schema'
 
-const ItemModel = mongoose.model('Item', ItemSchema)
+const ItemModel = mongoose.model('Item', Item)
 
 mockingoose(ItemModel).toReturn({}, 'save')
 

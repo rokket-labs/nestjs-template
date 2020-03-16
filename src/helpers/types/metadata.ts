@@ -1,7 +1,7 @@
-import { Field, ObjectType } from 'type-graphql'
+import { Field, Int, ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
 export class Metadata {
-  @Field(() => Number)
-  public count?: number
+  @Field(() => Int)
+  count?: number
 }

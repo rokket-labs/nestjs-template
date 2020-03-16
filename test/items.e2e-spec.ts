@@ -1,16 +1,10 @@
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify'
 import { Test, TestingModule } from '@nestjs/testing'
-import * as request from 'supertest'
-import { ItemsModule } from '../src/items/items.module'
-import { TypegooseModule } from 'nestjs-typegoose'
-import { GraphQLModule } from '@nestjs/graphql'
-import { Item } from '../src/items/items.schema'
-import { ConfigModule, ConfigService } from '@nestjs/config'
 import { ReturnModelType } from '@typegoose/typegoose'
-import {
-  NestFastifyApplication,
-  FastifyAdapter,
-} from '@nestjs/platform-fastify'
+import * as request from 'supertest'
+
 import { AppModule } from '../src/app.module'
+import { Item } from '../src/items/items.entity'
 
 describe('Items Controller (e2e)', () => {
   let app: NestFastifyApplication

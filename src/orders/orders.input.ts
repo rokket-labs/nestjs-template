@@ -1,22 +1,17 @@
-import { InputType, Field } from 'type-graphql'
+import { InputType } from '@nestjs/graphql'
 
 @InputType()
 export class OrderInput {
-  @Field()
-  readonly item: string
+  item: string
 
-  @Field()
-  readonly user: string
+  user: string
 
-  @Field()
-  readonly quantity: number
+  quantity: number
 }
 
 @InputType()
 export class OrderUpdate {
-  @Field({ nullable: true })
-  readonly item: string
+  item?: string
 
-  @Field({ nullable: true })
-  readonly quantity: number
+  quantity?: number
 }

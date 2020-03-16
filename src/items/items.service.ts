@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { InjectModel } from 'nestjs-typegoose'
 import { ReturnModelType } from '@typegoose/typegoose'
+import { InjectModel } from 'nestjs-typegoose'
 
-import { Item } from './items.schema'
+import { Item } from './items.entity'
 import { ItemInput } from './items.input'
 
 @Injectable()

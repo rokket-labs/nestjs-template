@@ -1,10 +1,10 @@
-import { Module, forwardRef } from '@nestjs/common'
+import { forwardRef, Module } from '@nestjs/common'
 import { TypegooseModule } from 'nestjs-typegoose'
-
-import { ItemsService } from './items.service'
-import { ItemsResolver } from './items.resolver'
-import { Item } from './items.schema'
 import { OrdersModule } from 'src/orders/orders.module'
+
+import { Item } from './items.entity'
+import { ItemsResolver } from './items.resolver'
+import { ItemsService } from './items.service'
 
 @Module({
   imports: [TypegooseModule.forFeature([Item]), forwardRef(() => OrdersModule)],

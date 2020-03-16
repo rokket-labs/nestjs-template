@@ -1,4 +1,4 @@
-import { createParamDecorator } from '@nestjs/common'
+import { createParamDecorator, ExecutionContext } from '@nestjs/common'
 
 /**
  * Access to current user.
@@ -7,5 +7,5 @@ import { createParamDecorator } from '@nestjs/common'
  * e.g `@UserRoles('premissions')` will return the `req.user.premissions` instead.
  */
 export const CurrentUser = createParamDecorator(
-  (data, [root, args, ctx, info]) => ctx.req.user,
+  (data, ctx: ExecutionContext) => ctx.switchToHttp().getRequest().user,
 )
