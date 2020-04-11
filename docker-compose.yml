@@ -1,11 +1,11 @@
-version: "3.7"
+version: '3.7'
 services:
   server:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - MONGO_URL="mongodb://mongo/nestgraphql"
       - REDIS_HOST="redis"
@@ -15,8 +15,12 @@ services:
     image: mongo
     restart: always
     ports:
-      - "27017:27017"
+      - '27017:27017'
+    volumes:
+      - mongodb:/data/db
   redis:
     image: redis
     ports:
-      - "6379:6379"
+      - '6379:6379'
+volumes:
+  mongodb:

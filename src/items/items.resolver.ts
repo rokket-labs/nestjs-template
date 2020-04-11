@@ -1,21 +1,14 @@
-import { UseGuards, Inject, forwardRef } from '@nestjs/common'
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Args,
-  ResolveProperty,
-  Parent,
-} from '@nestjs/graphql'
+import { forwardRef, Inject, UseGuards } from '@nestjs/common'
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { RoleProtected } from 'nestjs-role-protected'
-
-import { Item } from './items.schema'
-import { ItemsService } from './items.service'
-import { ItemInput } from './items.input'
 import { GqlAuthGuard } from 'src/auth/graphql-auth.guard'
-import { Metadata } from 'src/helpers/types/metadata'
+import { Metadata } from 'src/helpers/types/metadata.model'
+import { Order } from 'src/orders/orders.model'
 import { OrdersService } from 'src/orders/orders.service'
-import { Order } from 'src/orders/orders.schema'
+
+import { ItemInput, UpdateItemInput } from './items.input'
+import { Item } from './items.model'
+import { ItemsService } from './items.service'
 
 @Resolver(Item)
 export class ItemsResolver {
@@ -54,7 +47,7 @@ export class ItemsResolver {
   @Mutation(() => Item)
   async updateItem(
     @Args('id') id: string,
-    @Args('input') input: ItemInput,
+    @Args('input') input: UpdateItemInput,
   ): Promise<Item> {
     return this.itemsService.update(id, input)
   }
@@ -68,10 +61,9 @@ export class ItemsResolver {
     return this.itemsService.delete(id)
   }
 
-  @ResolveProperty()
+  @ResolveField(() => [Order])
   async orders(@Parent() item): Promise<Order[]> {
     const { id } = item
-    console.log(id)
     return await this.ordersService.find({ item: id })
   }
 }

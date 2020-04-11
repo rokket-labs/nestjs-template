@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
-import { InjectModel } from 'nestjs-typegoose'
 import { ReturnModelType } from '@typegoose/typegoose'
+import { InjectModel } from 'nestjs-typegoose'
 
-import { Item } from './items.schema'
-import { ItemInput } from './items.input'
+import { ItemInput, UpdateItemInput } from './items.input'
+import { Item } from './items.model'
 
 @Injectable()
 export class ItemsService {
@@ -28,7 +28,7 @@ export class ItemsService {
     return await this.itemModel.findByIdAndRemove(id)
   }
 
-  async update(id: string, item: ItemInput): Promise<Item> {
+  async update(id: string, item: UpdateItemInput): Promise<Item> {
     return await this.itemModel.findByIdAndUpdate(id, item, { new: true })
   }
 

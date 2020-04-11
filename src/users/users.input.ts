@@ -1,16 +1,12 @@
-import { InputType, Field } from 'type-graphql'
+import { InputType, PartialType } from '@nestjs/graphql'
 
 @InputType()
 export class UserInput {
-  @Field(() => String)
-  readonly email!: string
-
-  @Field(() => String)
-  readonly password!: string
-
-  @Field({ nullable: true })
-  readonly firstName?: string
-
-  @Field({ nullable: true })
-  readonly lastName?: string
+  email: string
+  password: string
+  firstName?: string
+  lastName?: string
 }
+
+@InputType()
+export class UpdateUserInput extends PartialType(UserInput) {}

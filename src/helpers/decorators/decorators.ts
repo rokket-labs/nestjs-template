@@ -1,4 +1,5 @@
-import { createParamDecorator } from '@nestjs/common'
+import { createParamDecorator, ExecutionContext } from '@nestjs/common'
+import { GqlExecutionContext } from '@nestjs/graphql'
 
 /**
  * Access to current user.
@@ -7,5 +8,8 @@ import { createParamDecorator } from '@nestjs/common'
  * e.g `@UserRoles('premissions')` will return the `req.user.premissions` instead.
  */
 export const CurrentUser = createParamDecorator(
-  (data, [root, args, ctx, info]) => ctx.req.user,
+  (data: unknown, context: ExecutionContext) => {
+    const ctx = GqlExecutionContext.create(context)
+    return ctx.getContext().req.user
+  },
 )

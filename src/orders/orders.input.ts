@@ -1,22 +1,13 @@
-import { InputType, Field } from 'type-graphql'
+import { InputType, OmitType, PartialType } from '@nestjs/graphql'
 
 @InputType()
 export class OrderInput {
-  @Field()
-  readonly item: string
-
-  @Field()
-  readonly user: string
-
-  @Field()
-  readonly quantity: number
+  item: string
+  user: string
+  quantity: number
 }
 
 @InputType()
-export class OrderUpdate {
-  @Field({ nullable: true })
-  readonly item: string
-
-  @Field({ nullable: true })
-  readonly quantity: number
-}
+export class UpdateOrderInput extends PartialType(
+  OmitType(OrderInput, ['user']),
+) {}

@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { InjectModel } from 'nestjs-typegoose'
 import { ReturnModelType } from '@typegoose/typegoose'
 import * as bcryptjs from 'bcryptjs'
-import { dissoc } from 'ramda'
+import { InjectModel } from 'nestjs-typegoose'
 
-import { User } from './users.schema'
-import { UserInput } from './users.input'
+import { UpdateUserInput, UserInput } from './users.input'
+import { User } from './users.model'
 
 @Injectable()
 export class UsersService {
@@ -45,7 +44,7 @@ export class UsersService {
     return await this.userModel.findByIdAndRemove(id)
   }
 
-  async update(id: string, user: UserInput): Promise<User> {
+  async update(id: string, user: UpdateUserInput): Promise<User> {
     return await this.userModel.findByIdAndUpdate(id, user, { new: true })
   }
 }

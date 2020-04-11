@@ -1,18 +1,17 @@
 import { HttpException, HttpStatus } from '@nestjs/common'
-import { Resolver, Mutation, Args } from '@nestjs/graphql'
+import { Args, Mutation, Resolver } from '@nestjs/graphql'
+import { UserInput } from 'src/users/users.input'
+import { User } from 'src/users/users.model'
 
 import { AuthService } from './auth.service'
-import { UserInput } from 'src/users/users.input'
-import { Token } from './interfaces/token.interface'
-import { TokenDto } from './dto/token.dto'
-import { Login } from './dto/login.dto'
-import { User } from 'src/users/users.schema'
+import { Login } from './dto/login.input'
+import { Token } from './dto/token.model'
 
 @Resolver('Auth')
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation(() => TokenDto)
+  @Mutation(() => Token)
   async login(@Args('input') input: Login): Promise<Token> {
     const user = await this.authService.validateUser(input)
 
