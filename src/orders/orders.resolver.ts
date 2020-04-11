@@ -1,24 +1,16 @@
-import {
-  Resolver,
-  Mutation,
-  Args,
-  Query,
-  ResolveProperty,
-  Parent,
-} from '@nestjs/graphql'
-import { RoleProtected, CanDoAny } from 'nestjs-role-protected'
-
-import { User } from 'src/users/users.schema'
-import { Inject, forwardRef, UseGuards } from '@nestjs/common'
-import { UsersService } from 'src/users/users.service'
-import { ItemsService } from 'src/items/items.service'
-import { Item } from 'src/items/items.schema'
-
-import { OrdersService } from './orders.service'
-import { Order } from './orders.schema'
-import { OrderInput, OrderUpdate } from './orders.input'
+import { forwardRef, Inject, UseGuards } from '@nestjs/common'
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import { CanDoAny, RoleProtected } from 'nestjs-role-protected'
 import { GqlAuthGuard } from 'src/auth/graphql-auth.guard'
 import { CurrentUser } from 'src/helpers/decorators/decorators'
+import { Item } from 'src/items/items.model'
+import { ItemsService } from 'src/items/items.service'
+import { User } from 'src/users/users.model'
+import { UsersService } from 'src/users/users.service'
+
+import { OrderInput, UpdateOrderInput } from './orders.input'
+import { Order } from './orders.model'
+import { OrdersService } from './orders.service'
 
 @Resolver(Order)
 export class OrdersResolver {
@@ -52,7 +44,7 @@ export class OrdersResolver {
   @Mutation(() => Order)
   async updateOrder(
     @Args('id') id: string,
-    @Args('input') input: OrderUpdate,
+    @Args('input') input: UpdateOrderInput,
     @CurrentUser() user: User,
     @CanDoAny() canDoAny: () => boolean,
   ): Promise<Order> {
@@ -71,13 +63,13 @@ export class OrdersResolver {
     return this.ordersService.delete(id, user, canDoAny())
   }
 
-  @ResolveProperty()
-  async user(@Parent() order): Promise<User> {
+  @ResolveField()
+  async user(@Parent() order: Order): Promise<User> {
     const { user } = order
     return await this.usersService.findOne(user)
   }
 
-  @ResolveProperty()
+  @ResolveField()
   async item(@Parent() order): Promise<Item> {
     const { item } = order
     return await this.itemsService.findOne(item)

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { InjectModel } from 'nestjs-typegoose'
-import { Order } from './orders.schema'
 import { ReturnModelType } from '@typegoose/typegoose'
-import { OrderInput, OrderUpdate } from './orders.input'
-import { User } from 'src/users/users.schema'
-import { Roles } from 'src/app.roles'
+import { InjectModel } from 'nestjs-typegoose'
+import { User } from 'src/users/users.model'
+
+import { OrderInput, UpdateOrderInput } from './orders.input'
+import { Order } from './orders.model'
 
 @Injectable()
 export class OrdersService {
@@ -38,7 +38,7 @@ export class OrdersService {
   async update(
     id: string,
     user: User,
-    item: OrderUpdate,
+    item: UpdateOrderInput,
     canDoAny: boolean,
   ): Promise<Order> {
     if (canDoAny)

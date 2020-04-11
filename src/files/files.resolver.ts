@@ -1,7 +1,8 @@
-import { Resolver, Mutation, Args } from '@nestjs/graphql'
-import { File } from './files.schema'
+import { Args, Mutation, Resolver } from '@nestjs/graphql'
+import { FileUpload, GraphQLUpload } from 'src/helpers/fileUploadDefinitions'
+
+import { File } from './files.model'
 import { FilesService } from './files.service'
-import { GraphQLUpload, FileUpload } from 'src/helpers/fileUploadDefinitions'
 
 @Resolver(File)
 export class FilesResolver {

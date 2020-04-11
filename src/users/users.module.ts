@@ -1,10 +1,10 @@
-import { Module, forwardRef } from '@nestjs/common'
+import { forwardRef, Module } from '@nestjs/common'
 import { TypegooseModule } from 'nestjs-typegoose'
-
-import { UsersService } from './users.service'
-import { UsersResolver } from './users.resolver'
-import { User } from './users.schema'
 import { OrdersModule } from 'src/orders/orders.module'
+
+import { User } from './users.model'
+import { UsersResolver } from './users.resolver'
+import { UsersService } from './users.service'
 
 @Module({
   imports: [
