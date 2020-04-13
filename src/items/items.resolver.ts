@@ -2,7 +2,7 @@ import { forwardRef, Inject, UseGuards } from '@nestjs/common'
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { RoleProtected } from 'nestjs-role-protected'
 import { GqlAuthGuard } from 'src/auth/graphql-auth.guard'
-import { Metadata } from 'src/helpers/types/metadata.model'
+import { Metadata } from 'src/helpers/metadata.model'
 import { Order } from 'src/orders/orders.model'
 import { OrdersService } from 'src/orders/orders.service'
 

@@ -4,8 +4,8 @@ import { UserInput } from 'src/users/users.input'
 import { User } from 'src/users/users.model'
 
 import { AuthService } from './auth.service'
-import { Login } from './dto/login.input'
-import { Token } from './dto/token.model'
+import { Login } from './login.input'
+import { Token } from './token.model'
 
 @Resolver('Auth')
 export class AuthResolver {

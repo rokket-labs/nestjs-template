@@ -6,7 +6,7 @@ import { UserInput } from 'src/users/users.input'
 import { User } from 'src/users/users.model'
 import { UsersService } from 'src/users/users.service'
 
-import { Token } from './dto/token.model'
+import { Token } from './token.model'
 
 @Injectable()
 export class AuthService {
