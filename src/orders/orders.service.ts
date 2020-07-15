@@ -15,24 +15,24 @@ export class OrdersService {
 
   async create(createItemDto: OrderInput): Promise<Order> {
     const createdItem = new this.orderModel(createItemDto)
-    return await createdItem.save()
+    return createdItem.save()
   }
 
   async findAll(): Promise<Order[]> {
-    return await this.orderModel.find().exec()
+    return this.orderModel.find().exec()
   }
 
   async find(input: Partial<OrderInput>): Promise<Order[]> {
-    return await this.orderModel.find(input).exec()
+    return this.orderModel.find(input).exec()
   }
 
   async findOne(id: string): Promise<Order> {
-    return await this.orderModel.findOne({ _id: id })
+    return this.orderModel.findOne({ _id: id })
   }
 
   async delete(id: string, user: User, canDoAny: boolean): Promise<Order> {
-    if (canDoAny) return await this.orderModel.findByIdAndRemove(id)
-    return await this.orderModel.findOneAndRemove({ id, user: user.id })
+    if (canDoAny) return  this.orderModel.findByIdAndRemove(id)
+    return this.orderModel.findOneAndRemove({ id, userId: user.id })
   }
 
   async update(
@@ -42,9 +42,8 @@ export class OrdersService {
     canDoAny: boolean,
   ): Promise<Order> {
     if (canDoAny)
-      return await this.orderModel.findByIdAndUpdate(id, item, { new: true })
-
-    return await this.orderModel.findOneAndUpdate({ id, user: user.id }, item, {
+      return this.orderModel.findByIdAndUpdate(id, item, { new: true })
+    return this.orderModel.findOneAndUpdate({ _id: id, userId: user.id }, item, {
       new: true,
     })
   }

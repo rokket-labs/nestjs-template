@@ -9,12 +9,16 @@ export class Order {
   id: string
 
   @Field(() => User)
-  @prop({ ref: 'User' })
-  user: Ref<User>
+  user: User
 
   @Field(() => Item)
-  @prop({ ref: 'Item' })
-  item: Ref<Item>
+  item: Item
+
+  @prop()
+  userId: string
+
+  @prop()
+  itemId: string
 
   @prop()
   quantity: number

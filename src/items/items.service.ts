@@ -33,6 +33,6 @@ export class ItemsService {
   }
 
   async count(): Promise<number> {
-    return await this.itemModel.count()
+    return await this.itemModel.estimatedDocumentCount()
   }
 }

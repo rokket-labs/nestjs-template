@@ -49,12 +49,14 @@ type Order {
   id: ID!
   user: User!
   item: Item!
+  userId: String!
+  itemId: String!
   quantity: Float!
 }
 
 input OrderInput {
-  item: String!
-  user: String!
+  itemId: String!
+  userId: String!
   quantity: Float!
 }
 
@@ -86,7 +88,7 @@ input UpdateItemInput {
 }
 
 input UpdateOrderInput {
-  item: String
+  itemId: String
   quantity: Float
 }
 

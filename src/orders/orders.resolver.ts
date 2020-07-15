@@ -34,8 +34,8 @@ export class OrdersResolver {
 
   @UseGuards(GqlAuthGuard)
   @Mutation(() => Order)
-  async createOrder(@Args('input') input: OrderInput): Promise<Order> {
-    return this.ordersService.create(input)
+  async createOrder(@Args('input') input: OrderInput,  @CurrentUser() user: User): Promise<Order> {
+    return this.ordersService.create({ ...input, userId: user.id })
   }
 
   @RoleProtected({
@@ -65,13 +65,13 @@ export class OrdersResolver {
 
   @ResolveField()
   async user(@Parent() order: Order): Promise<User> {
-    const { user } = order
-    return await this.usersService.findOne(user)
+    const { userId } = order
+    return await this.usersService.findOne(userId)
   }
 
   @ResolveField()
   async item(@Parent() order): Promise<Item> {
-    const { item } = order
-    return await this.itemsService.findOne(item)
+    const { itemId } = order
+    return await this.itemsService.findOne(itemId)
   }
 }
