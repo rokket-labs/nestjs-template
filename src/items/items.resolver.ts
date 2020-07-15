@@ -64,6 +64,6 @@ export class ItemsResolver {
   @ResolveField(() => [Order])
   async orders(@Parent() item): Promise<Order[]> {
     const { id } = item
-    return await this.ordersService.find({ item: id })
+    return await this.ordersService.find({ itemId: id })
   }
 }
