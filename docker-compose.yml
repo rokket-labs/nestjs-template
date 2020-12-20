@@ -8,8 +8,6 @@ services:
       - '3000:3000'
     environment:
       - MONGO_URL="mongodb://mongo/nestgraphql"
-      - REDIS_HOST="redis"
-      - REDIS_PORT="6379"
       - JWT_SECRET="VERYSECRETJWTWOWROKKET"
   mongo:
     image: mongo
@@ -18,9 +16,5 @@ services:
       - '27017:27017'
     volumes:
       - mongodb:/data/db
-  redis:
-    image: redis
-    ports:
-      - '6379:6379'
 volumes:
   mongodb:
