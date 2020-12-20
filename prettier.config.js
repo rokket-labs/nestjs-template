@@ -1,1 +1,1 @@
-module.exports = require('eslint-config-rokket-labs/prettier');
+module.exports = require('eslint-config-rokket-labs/prettier')

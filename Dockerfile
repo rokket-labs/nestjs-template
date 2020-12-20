@@ -1,6 +1,6 @@
-FROM mhart/alpine-node:latest
+FROM mhart/alpine-node:15.4
 
-RUN apk update && apk add yarn python g++ make && rm -rf /var/cache/apk
+RUN apk add --update --no-cache yarn py-pip g++ make && rm -rf /var/cache/apk
 
 RUN mkdir -p /home/node/app
 
@@ -14,7 +14,7 @@ WORKDIR /home/node/app
 COPY package.json ./
 COPY yarn.lock ./
 
-RUN yarn
+RUN yarn --ignore-engines --frozen-lockfile
 
 COPY --chown=node:node . .
 
