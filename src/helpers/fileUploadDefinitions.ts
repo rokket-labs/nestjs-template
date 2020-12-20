@@ -1,6 +1,7 @@
+import { Readable } from 'stream'
+
 import * as FileType from 'file-type'
 import { GraphQLError, GraphQLScalarType } from 'graphql'
-import { Readable } from 'stream'
 
 export interface FileUpload {
   filename: string

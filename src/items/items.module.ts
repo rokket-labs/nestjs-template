@@ -1,5 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common'
 import { TypegooseModule } from 'nestjs-typegoose'
+
 import { OrdersModule } from 'src/orders/orders.module'
 
 import { Item } from './items.model'

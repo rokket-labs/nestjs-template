@@ -1,5 +1,12 @@
-import { Field, HideField, ID, ObjectType, registerEnumType } from '@nestjs/graphql'
+import {
+  Field,
+  HideField,
+  ID,
+  ObjectType,
+  registerEnumType,
+} from '@nestjs/graphql'
 import { arrayProp, prop } from '@typegoose/typegoose'
+
 import { Roles } from 'src/app.roles'
 import { Order } from 'src/orders/orders.model'
 

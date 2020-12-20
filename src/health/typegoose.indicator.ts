@@ -1,11 +1,15 @@
 import { Injectable, Scope } from '@nestjs/common'
 import { ModuleRef } from '@nestjs/core'
 import {
-  ConnectionNotFoundError, HealthCheckError, HealthIndicator, TimeoutError,
+  ConnectionNotFoundError,
+  HealthCheckError,
+  HealthIndicator,
+  TimeoutError,
 } from '@nestjs/terminus'
 import { checkPackages } from '@nestjs/terminus/dist/utils/checkPackage.util'
 import {
-  promiseTimeout, TimeoutError as PromiseTimeoutError,
+  promiseTimeout,
+  TimeoutError as PromiseTimeoutError,
 } from '@nestjs/terminus/dist/utils/promise-timeout'
 import * as NestJSTypegoose from 'nestjs-typegoose'
 

@@ -1,6 +1,14 @@
 import { forwardRef, Inject, UseGuards } from '@nestjs/common'
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql'
 import { CanDoAny, RoleProtected } from 'nestjs-role-protected'
+
 import { GqlAuthGuard } from 'src/auth/graphql-auth.guard'
 import { CurrentUser } from 'src/helpers/decorators/decorators'
 import { Item } from 'src/items/items.model'
@@ -34,7 +42,10 @@ export class OrdersResolver {
 
   @UseGuards(GqlAuthGuard)
   @Mutation(() => Order)
-  async createOrder(@Args('input') input: OrderInput,  @CurrentUser() user: User): Promise<Order> {
+  async createOrder(
+    @Args('input') input: OrderInput,
+    @CurrentUser() user: User,
+  ): Promise<Order> {
     return this.ordersService.create({ ...input, userId: user.id })
   }
 

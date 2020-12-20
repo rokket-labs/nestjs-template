@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql'
 import { prop } from '@typegoose/typegoose'
+
 import { Order } from 'src/orders/orders.model'
 
 @ObjectType()

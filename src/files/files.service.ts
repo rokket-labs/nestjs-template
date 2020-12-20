@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common'
 import * as fs from 'fs'
-import { nanoid } from 'nanoid'
 import * as path from 'path'
+
+import { Injectable } from '@nestjs/common'
+import { nanoid } from 'nanoid'
+
 import { FileUpload } from 'src/helpers/fileUploadDefinitions'
 
 @Injectable()
@@ -14,7 +16,7 @@ export class FilesService {
       createReadStream()
         .pipe(
           fs.createWriteStream(path.join(__dirname, name)),
-        ) /* aqui implementa tu servicio en vez de fs */
+        ) /* Use your own implementation (S3, GCB, FTP, etc.) */
         .on('finish', res)
         .on('error', rej),
     )

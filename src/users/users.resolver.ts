@@ -1,4 +1,12 @@
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql'
+
 import { Order } from 'src/orders/orders.model'
 import { OrdersService } from 'src/orders/orders.service'
 

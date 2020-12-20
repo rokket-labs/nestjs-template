@@ -1,6 +1,8 @@
 import { Controller, Get } from '@nestjs/common'
 import {
-  DNSHealthIndicator, HealthCheck, HealthCheckService, MongooseHealthIndicator,
+  DNSHealthIndicator,
+  HealthCheck,
+  HealthCheckService,
 } from '@nestjs/terminus'
 
 import { TypegooseHealthIndicator } from './typegoose.indicator'

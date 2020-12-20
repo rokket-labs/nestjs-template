@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common'
 import { Args, Mutation, Resolver } from '@nestjs/graphql'
+
 import { UserInput } from 'src/users/users.input'
 import { User } from 'src/users/users.model'
 

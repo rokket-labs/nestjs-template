@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { ReturnModelType } from '@typegoose/typegoose'
 import { InjectModel } from 'nestjs-typegoose'
+
 import { User } from 'src/users/users.model'
 
 import { OrderInput, UpdateOrderInput } from './orders.input'
@@ -31,7 +32,7 @@ export class OrdersService {
   }
 
   async delete(id: string, user: User, canDoAny: boolean): Promise<Order> {
-    if (canDoAny) return  this.orderModel.findByIdAndRemove(id)
+    if (canDoAny) return this.orderModel.findByIdAndRemove(id)
     return this.orderModel.findOneAndRemove({ id, userId: user.id })
   }
 
@@ -43,8 +44,12 @@ export class OrdersService {
   ): Promise<Order> {
     if (canDoAny)
       return this.orderModel.findByIdAndUpdate(id, item, { new: true })
-    return this.orderModel.findOneAndUpdate({ _id: id, userId: user.id }, item, {
-      new: true,
-    })
+    return this.orderModel.findOneAndUpdate(
+      { _id: id, userId: user.id },
+      item,
+      {
+        new: true,
+      },
+    )
   }
 }
