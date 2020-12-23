@@ -7,6 +7,7 @@ import {
   Resolver,
 } from '@nestjs/graphql'
 
+import { Item } from 'src/items/items.model'
 import { Order } from 'src/orders/orders.model'
 import { OrdersService } from 'src/orders/orders.service'
 
@@ -45,7 +46,7 @@ export class UsersResolver {
   }
 
   @ResolveField(() => [Order])
-  async orders(@Parent() item): Promise<Order[]> {
+  async orders(@Parent() item: Item): Promise<Order[]> {
     const { id } = item
     return await this.ordersService.find({ userId: id })
   }

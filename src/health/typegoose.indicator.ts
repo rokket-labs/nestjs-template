@@ -4,6 +4,7 @@ import {
   ConnectionNotFoundError,
   HealthCheckError,
   HealthIndicator,
+  HealthIndicatorResult,
   TimeoutError,
 } from '@nestjs/terminus'
 import { checkPackages } from '@nestjs/terminus/dist/utils/checkPackage.util'
@@ -57,9 +58,9 @@ export class TypegooseHealthIndicator extends HealthIndicator {
    * Returns the connection of the current DI context
    */
   private getContextConnection(): any | null {
-    const {
-      getConnectionToken,
-    } = require('nestjs-typegoose') as typeof NestJSTypegoose
+    const { getConnectionToken } = (import(
+      'nestjs-typegoose'
+    ) as unknown) as typeof NestJSTypegoose
 
     try {
       return this.moduleRef.get(
@@ -96,7 +97,7 @@ export class TypegooseHealthIndicator extends HealthIndicator {
   public async pingCheck(
     key: string,
     options: TypegoosePingCheckSettings = {},
-  ) {
+  ): Promise<HealthIndicatorResult> {
     let isHealthy = false
     this.checkDependantPackages()
 

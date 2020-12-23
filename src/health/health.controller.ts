@@ -2,6 +2,7 @@ import { Controller, Get } from '@nestjs/common'
 import {
   DNSHealthIndicator,
   HealthCheck,
+  HealthCheckResult,
   HealthCheckService,
 } from '@nestjs/terminus'
 
@@ -17,7 +18,7 @@ export class HealthController {
 
   @Get()
   @HealthCheck()
-  check() {
+  async check(): Promise<HealthCheckResult> {
     return this.health.check([
       () => this.dns.pingCheck('google', 'https://google.com'),
       () => this.mongo.pingCheck('mongodb', { timeout: 1500 }),

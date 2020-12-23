@@ -9,6 +9,10 @@ import { UsersService } from 'src/users/users.service'
 
 import { Token } from './token.model'
 
+type ValidateInput = {
+  id: string
+}
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -35,7 +39,7 @@ export class AuthService {
     return await this.usersService.validate(userInput)
   }
 
-  async validate({ id }): Promise<User | null> {
+  async validate({ id }: ValidateInput): Promise<User | null> {
     const user = await this.usersService.findOne(id)
     if (!user) throw Error('Authenticate validation error')
     return user
