@@ -5,6 +5,9 @@
   "author": "Rokket Labs <tomas@rokketlabs.com>",
   "private": true,
   "license": "MIT",
+  "engines": {
+    "node": "14.5.0"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "prestart": "rimraf dist",
@@ -31,10 +34,10 @@
     "@nestjs/jwt": "^7.2.0",
     "@nestjs/mongoose": "^7.2.0",
     "@nestjs/passport": "^7.1.5",
-    "@nestjs/platform-fastify": "^7.6.3",
+    "@nestjs/platform-fastify": "^7.6.5",
     "@nestjs/terminus": "^7.0.1",
     "@typegoose/typegoose": "^7.4.5",
-    "apollo-server-fastify": "^2.19.1",
+    "apollo-server-fastify": "3.0.0-alpha.3",
     "bcryptjs": "^2.4.3",
     "file-type": "^16.0.1",
     "graphql": "^15.4.0",
