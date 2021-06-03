@@ -13,26 +13,27 @@ export class ItemsService {
 
   async create(createItemDto: ItemInput): Promise<Item> {
     const createdItem = new this.itemModel(createItemDto)
-    return await createdItem.save()
+
+    return createdItem.save()
   }
 
   async findAll(): Promise<Item[]> {
-    return await this.itemModel.find().exec()
+    return this.itemModel.find().exec()
   }
 
   async findOne(id: string): Promise<Item> {
-    return await this.itemModel.findOne({ _id: id })
+    return this.itemModel.findOne({ _id: id })
   }
 
   async delete(id: string): Promise<Item> {
-    return await this.itemModel.findByIdAndRemove(id)
+    return this.itemModel.findByIdAndRemove(id)
   }
 
   async update(id: string, item: UpdateItemInput): Promise<Item> {
-    return await this.itemModel.findByIdAndUpdate(id, item, { new: true })
+    return this.itemModel.findByIdAndUpdate(id, item, { new: true })
   }
 
   async count(): Promise<number> {
-    return await this.itemModel.estimatedDocumentCount()
+    return this.itemModel.estimatedDocumentCount()
   }
 }

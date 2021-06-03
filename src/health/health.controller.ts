@@ -1,9 +1,9 @@
 import { Controller, Get } from '@nestjs/common'
 import {
-  DNSHealthIndicator,
   HealthCheck,
   HealthCheckResult,
   HealthCheckService,
+  HttpHealthIndicator,
 } from '@nestjs/terminus'
 
 import { TypegooseHealthIndicator } from './typegoose.indicator'
@@ -12,7 +12,7 @@ import { TypegooseHealthIndicator } from './typegoose.indicator'
 export class HealthController {
   constructor(
     private health: HealthCheckService,
-    private dns: DNSHealthIndicator,
+    private http: HttpHealthIndicator,
     private mongo: TypegooseHealthIndicator,
   ) {}
 
@@ -20,7 +20,7 @@ export class HealthController {
   @HealthCheck()
   async check(): Promise<HealthCheckResult> {
     return this.health.check([
-      () => this.dns.pingCheck('google', 'https://google.com'),
+      () => this.http.pingCheck('google', 'https://google.com'),
       () => this.mongo.pingCheck('mongodb', { timeout: 1500 }),
     ])
   }

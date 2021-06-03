@@ -14,11 +14,12 @@ export class FilesResolver {
     @Args({ name: 'file', type: () => GraphQLUpload }) fileInput: FileUpload,
   ): Promise<File> {
     const url = await this.filesService.create(fileInput)
+
     return { url, success: true }
   }
 
   @Mutation(() => Boolean)
   async removeFile(@Args('fileUrl') fileUrl: string): Promise<boolean> {
-    return await this.filesService.delete(fileUrl)
+    return this.filesService.delete(fileUrl)
   }
 }

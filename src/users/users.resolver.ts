@@ -48,6 +48,7 @@ export class UsersResolver {
   @ResolveField(() => [Order])
   async orders(@Parent() item: Item): Promise<Order[]> {
     const { id } = item
-    return await this.ordersService.find({ userId: id })
+
+    return this.ordersService.find({ userId: id })
   }
 }

@@ -12,6 +12,7 @@ export class FilesService {
     const { createReadStream, filename } = file
     const extension = filename.split('.').pop()
     const name = `${nanoid(30)}.${extension}`
+
     await new Promise((res, rej) =>
       createReadStream()
         .pipe(
@@ -20,6 +21,7 @@ export class FilesService {
         .on('finish', res)
         .on('error', rej),
     )
+
     return name
   }
 

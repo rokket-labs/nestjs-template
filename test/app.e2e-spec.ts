@@ -1,5 +1,4 @@
 import { INestApplication } from '@nestjs/common'
-import { FastifyAdapter } from '@nestjs/platform-fastify'
 import { Test, TestingModule } from '@nestjs/testing'
 import request from 'supertest'
 
@@ -13,7 +12,7 @@ describe('AppController (e2e)', () => {
       imports: [AppModule],
     }).compile()
 
-    app = moduleFixture.createNestApplication(new FastifyAdapter())
+    app = moduleFixture.createNestApplication()
     await app.init()
     app.getHttpAdapter().getInstance().ready()
   })

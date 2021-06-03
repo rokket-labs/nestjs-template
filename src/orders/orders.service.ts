@@ -16,6 +16,7 @@ export class OrdersService {
 
   async create(createItemDto: OrderInput): Promise<Order> {
     const createdItem = new this.orderModel(createItemDto)
+
     return createdItem.save()
   }
 
@@ -33,6 +34,7 @@ export class OrdersService {
 
   async delete(id: string, user: User, canDoAny: boolean): Promise<Order> {
     if (canDoAny) return this.orderModel.findByIdAndRemove(id)
+
     return this.orderModel.findOneAndRemove({ id, userId: user.id })
   }
 
@@ -44,6 +46,7 @@ export class OrdersService {
   ): Promise<Order> {
     if (canDoAny)
       return this.orderModel.findByIdAndUpdate(id, item, { new: true })
+
     return this.orderModel.findOneAndUpdate(
       { _id: id, userId: user.id },
       item,

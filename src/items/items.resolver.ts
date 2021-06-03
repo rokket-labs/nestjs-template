@@ -40,6 +40,7 @@ export class ItemsResolver {
   @Query(() => Metadata)
   async allItemsMeta(): Promise<Metadata> {
     const count = await this.itemsService.count()
+
     return { count }
   }
 
@@ -72,6 +73,7 @@ export class ItemsResolver {
   @ResolveField(() => [Order])
   async orders(@Parent() item: Item): Promise<Order[]> {
     const { id } = item
-    return await this.ordersService.find({ itemId: id })
+
+    return this.ordersService.find({ itemId: id })
   }
 }

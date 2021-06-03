@@ -49,40 +49,35 @@ type File {
 }
 
 type Query {
+  allUsers: [User!]!
+  User(id: String!): User!
+  allOrders: [Order!]!
+  Order(id: String!): Order!
   allItems: [Item!]!
   Item(id: String!): Item!
   allItemsMeta: Metadata!
-  allOrders: [Order!]!
-  Order(id: String!): Order!
-  allUsers: [User!]!
-  User(id: String!): User!
 }
 
 type Mutation {
-  createItem(input: ItemInput!): Item!
-  updateItem(input: UpdateItemInput!, id: String!): Item!
-  deleteItem(id: String!): Item!
+  updateUser(input: UpdateUserInput!, id: String!): User!
+  deleteUser(id: String!): User!
   createOrder(input: OrderInput!): Order!
   updateOrder(input: UpdateOrderInput!, id: String!): Order!
   deleteOrder(id: String!): Order!
-  updateUser(input: UpdateUserInput!, id: String!): User!
-  deleteUser(id: String!): User!
+  createItem(input: ItemInput!): Item!
+  updateItem(input: UpdateItemInput!, id: String!): Item!
+  deleteItem(id: String!): Item!
   login(input: Login!): Token!
   signUp(input: UserInput!): User!
   uploadFile(file: Upload!): File!
   removeFile(fileUrl: String!): Boolean!
 }
 
-input ItemInput {
-  title: String!
-  price: Float!
-  description: String!
-}
-
-input UpdateItemInput {
-  title: String
-  price: Float
-  description: String
+input UpdateUserInput {
+  email: String
+  password: String
+  firstName: String
+  lastName: String
 }
 
 input OrderInput {
@@ -96,11 +91,16 @@ input UpdateOrderInput {
   quantity: Float
 }
 
-input UpdateUserInput {
-  email: String
-  password: String
-  firstName: String
-  lastName: String
+input ItemInput {
+  title: String!
+  price: Float!
+  description: String!
+}
+
+input UpdateItemInput {
+  title: String
+  price: Float
+  description: String
 }
 
 input Login {

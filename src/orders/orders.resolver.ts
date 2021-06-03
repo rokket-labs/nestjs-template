@@ -77,12 +77,14 @@ export class OrdersResolver {
   @ResolveField()
   async user(@Parent() order: Order): Promise<User> {
     const { userId } = order
-    return await this.usersService.findOne(userId)
+
+    return this.usersService.findOne(userId)
   }
 
   @ResolveField()
   async item(@Parent() order: Order): Promise<Item> {
     const { itemId } = order
-    return await this.itemsService.findOne(itemId)
+
+    return this.itemsService.findOne(itemId)
   }
 }

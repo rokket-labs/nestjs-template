@@ -58,9 +58,9 @@ export class TypegooseHealthIndicator extends HealthIndicator {
    * Returns the connection of the current DI context
    */
   private getContextConnection(): any | null {
-    const { getConnectionToken } = (import(
+    const { getConnectionToken } = import(
       'nestjs-typegoose'
-    ) as unknown) as typeof NestJSTypegoose
+    ) as unknown as typeof NestJSTypegoose
 
     try {
       return this.moduleRef.get(
@@ -81,6 +81,7 @@ export class TypegooseHealthIndicator extends HealthIndicator {
   private async pingDb(connection: any, timeout: number) {
     const promise =
       connection.readyState === 1 ? Promise.resolve() : Promise.reject()
+
     return await promiseTimeout(timeout, promise)
   }
 
@@ -99,6 +100,7 @@ export class TypegooseHealthIndicator extends HealthIndicator {
     options: TypegoosePingCheckSettings = {},
   ): Promise<HealthIndicatorResult> {
     let isHealthy = false
+
     this.checkDependantPackages()
 
     const connection = options.connection || this.getContextConnection()
