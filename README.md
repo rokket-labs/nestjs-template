@@ -31,7 +31,7 @@
 
 - Rokket Labs ESLint and Prettier preconfigured and ready to go!
 - Dockerfile and Docker-Compose for easy deployment. Includes Terminus health checks for Kubernetes deployment.
-- Fastify, Typegoose and GraphQL configuration out of the box.
+- Express, Typegoose and GraphQL configuration out of the box.
 - Socket.io (with Redis) and Email integration.
 - Authentication (Passport and JWT) and Authorization (Roles and Guards) example.
 - Working example with Users, Orders and Items, complete with schemas, tests and resolvers.
