@@ -1,0 +1,35 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Mutation {
+  login(user: UserInput!): UserSession!
+  registerUser(userInput: RegisterUserInput!): UserDto!
+}
+
+type Query {
+  getHello: String!
+}
+
+input RegisterUserInput {
+  firstName: String!
+  lastName: String!
+}
+
+type UserDto {
+  email: String
+  firstName: String
+  isAdmin: Boolean
+  lastName: String
+}
+
+input UserInput {
+  name: String!
+  password: String!
+}
+
+type UserSession {
+  accessToken: String!
+  idToken: String!
+  refreshToken: String!
+}
