@@ -9,6 +9,11 @@ import { AuthService } from './auth.service'
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
+  /**
+   * This method is only used for testing, all login should
+   * be done through the frontend application and consumed through
+   * the GraphQL Guard.
+   */
   @Mutation(() => UserSession)
   async login(
     @Args('user') authenticateRequest: UserInput,

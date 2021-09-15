@@ -15,8 +15,6 @@ export class UsersService {
     userInput: RegisterUserInput,
     user: IdTokenUser,
   ): Promise<User> {
-    console.log(userInput, user)
-
     const newUser = new this.userModel({
       ...userInput,
       email: user.email,
@@ -25,5 +23,16 @@ export class UsersService {
     })
 
     return newUser.save()
+  }
+
+  async findOrRegisterUser(user: IdTokenUser): Promise<User> {
+    const foundUser = await this.userModel.findOne({
+      cognitoUserId: user.sub,
+      email: user.email,
+    })
+
+    if (foundUser) return foundUser
+
+    return this.registerUser({}, user)
   }
 }

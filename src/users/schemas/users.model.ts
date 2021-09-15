@@ -1,12 +1,14 @@
 import { ObjectType } from '@nestjs/graphql'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { Document, Types } from 'mongoose'
+import { Document } from 'mongoose'
 
 // import { Role } from 'src/roles/schemas/roles.model'
 
 @Schema()
 @ObjectType()
 export class User {
+  id: string
+
   @Prop({ index: 'text', unique: true })
   cognitoUserId: string
 

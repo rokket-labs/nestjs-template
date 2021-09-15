@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 
-import { IdTokenUser } from './auth/jwt.strategy'
+import { User } from './users/schemas/users.model'
 
 @Injectable()
 export class AppService {
-  getHello(user: IdTokenUser): string {
+  getHello(user: User): string {
     return `Hello ${user.email}`
   }
 }

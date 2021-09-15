@@ -3,6 +3,8 @@ import { PassportStrategy } from '@nestjs/passport'
 import { passportJwtSecret } from 'jwks-rsa'
 import { ExtractJwt, Strategy } from 'passport-jwt'
 
+import { UsersService } from 'src/users/users.service'
+
 import { AuthConfig } from './auth.config'
 
 export interface IdTokenUser {
@@ -15,7 +17,10 @@ export interface IdTokenUser {
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(authConfig: AuthConfig) {
+  constructor(
+    authConfig: AuthConfig,
+    private readonly usersService: UsersService,
+  ) {
     super({
       secretOrKeyProvider: passportJwtSecret({
         cache: true,
@@ -31,6 +36,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   public async validate(payload: IdTokenUser) {
-    return payload
+    const user = await this.usersService.findOrRegisterUser(payload)
+
+    return user
   }
 }

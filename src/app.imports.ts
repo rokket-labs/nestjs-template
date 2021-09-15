@@ -3,6 +3,7 @@ import { join } from 'path'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
 import { MongooseModule } from '@nestjs/mongoose'
+import { TerminusModule } from '@nestjs/terminus'
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
 
 export const AppImports = [
@@ -13,6 +14,13 @@ export const AppImports = [
     imports: [ConfigModule],
     useFactory: async (configService: ConfigService) => ({
       uri: configService.get<string>('MONGO_URL', process.env.MONGO_URL),
+      // connectionFactory: (connection: Connection) => {
+      //   // Add global mongoose plugins here
+      //   console.log('ADDING PLUGIN TO MONGO')
+      //   connection.plugin(accessibleRecordsPlugin)
+
+      //   return connection
+      // },
     }),
     inject: [ConfigService],
   }),
@@ -23,4 +31,6 @@ export const AppImports = [
     playground: false,
     plugins: [ApolloServerPluginLandingPageLocalDefault()],
   }),
+  // Terminus
+  TerminusModule,
 ]

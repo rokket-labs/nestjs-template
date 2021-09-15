@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@casl/ability": "^5.4.3",
+    "@nestjs/axios": "^0.0.1",
     "@nestjs/common": "^8.0.6",
     "@nestjs/config": "^1.0.1",
     "@nestjs/core": "^8.0.6",
@@ -28,6 +29,7 @@
     "@nestjs/mongoose": "^8.0.1",
     "@nestjs/passport": "^8.0.1",
     "@nestjs/platform-express": "^8.0.6",
+    "@nestjs/terminus": "^8.0.0",
     "amazon-cognito-identity-js": "^5.1.0",
     "apollo-server-express": "^3.3.0",
     "class-transformer": "^0.4.0",
@@ -73,7 +75,6 @@
       "eslint --fix"
     ],
     "*.{ts,tsx}": [
-      "tsc --noEmit",
       "prettier --write",
       "eslint --fix"
     ]

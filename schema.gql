@@ -2,23 +2,56 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Article {
+  isPublished: Boolean!
+  title: String!
+  user: User!
+}
+
+input CreateArticleInput {
+  isPublished: Boolean = true
+  title: String!
+}
+
 type Mutation {
+  createArticle(createArticleInput: CreateArticleInput!): Article!
   login(user: UserInput!): UserSession!
   registerUser(userInput: RegisterUserInput!): UserDto!
+  removeArticle(id: String!): Boolean!
+  updateArticle(updateArticleInput: UpdateArticleInput!): Article!
 }
 
 type Query {
+  article(id: Float!): Article!
+  articles: [Article!]!
   getHello: String!
+  myArticles: [Article!]!
 }
 
 input RegisterUserInput {
+  firstName: String
+  lastName: String
+}
+
+input UpdateArticleInput {
+  id: String!
+  isPublished: Boolean = true
+  title: String
+}
+
+type User {
+  cognitoUserId: String!
+  email: String!
   firstName: String!
+  id: String!
+  isAdmin: Boolean!
   lastName: String!
 }
 
 type UserDto {
   email: String
   firstName: String
+  id: String
   isAdmin: Boolean
   lastName: String
 }
