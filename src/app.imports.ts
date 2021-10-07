@@ -14,7 +14,7 @@ export const AppImports = [
   TypegooseModule.forRootAsync({
     imports: [ConfigModule],
     useFactory: async (config: ConfigService) => ({
-      uri: config.get<string>('MONGO_URL', process.env.MONGO_URL),
+      uri: config.get<string>('MONGO_URI', process.env.MONGO_URI),
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,
