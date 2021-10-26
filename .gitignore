@@ -392,6 +392,15 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# Yarn
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 =======
 # Local
 .env
