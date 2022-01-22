@@ -44,7 +44,7 @@
     "graphql": "^15.5.0",
     "graphql-tools": "^7.0.5",
     "mongoose": "5.10.18",
-    "nanoid": "^3.1.23",
+    "nanoid": "^3.1.31",
     "nestjs-role-protected": "^0.2.1",
     "nestjs-typegoose": "^7.1.38",
     "passport": "^0.4.1",
