@@ -1,12 +1,12 @@
-import { forwardRef, Module } from '@nestjs/common';
-import { TypegooseModule } from '@m8a/nestjs-typegoose';
+import { TypegooseModule } from '@m8a/nestjs-typegoose'
+import { forwardRef, Module } from '@nestjs/common'
 
-import { ItemsModule } from 'src/items/items.module';
-import { UsersModule } from 'src/users/users.module';
+import { ItemsModule } from 'src/items/items.module'
+import { UsersModule } from 'src/users/users.module'
 
-import { Order } from './orders.model';
-import { OrdersResolver } from './orders.resolver';
-import { OrdersService } from './orders.service';
+import { Order } from './orders.model'
+import { OrdersResolver } from './orders.resolver'
+import { OrdersService } from './orders.service'
 
 @Module({
   imports: [

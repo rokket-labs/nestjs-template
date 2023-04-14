@@ -1,4 +1,4 @@
-import { RolesBuilder } from 'nestjs-role-protected';
+import { RolesBuilder } from 'nestjs-role-protected'
 
 export enum Roles {
   USER = 'USER',
@@ -29,6 +29,6 @@ const rolesPermissions = {
       'update:own': ['*'],
     },
   },
-};
+}
 
-export const roles = new RolesBuilder(rolesPermissions);
+export const roles = new RolesBuilder(rolesPermissions)
