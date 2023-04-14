@@ -1,35 +1,20 @@
-import {
-  Args,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql'
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { UsersService } from './users.service';
+import { UpdateUserInput, UserInput } from './users.input';
+import { User } from './users.model';
 
-import { Item } from 'src/items/items.model'
-import { Order } from 'src/orders/orders.model'
-import { OrdersService } from 'src/orders/orders.service'
-
-import { UpdateUserInput } from './users.input'
-import { User } from './users.model'
-import { UsersService } from './users.service'
-
-@Resolver(User)
+@Resolver(() => User)
 export class UsersResolver {
-  constructor(
-    private readonly usersService: UsersService,
-    private readonly ordersService: OrdersService,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Query(() => [User])
   async allUsers(): Promise<User[]> {
-    return this.usersService.findAll()
+    return this.usersService.findAll();
   }
 
   @Query(() => User)
   async User(@Args('id') id: string): Promise<User> {
-    return this.usersService.findOne(id)
+    return this.usersService.findOne(id);
   }
 
   @Mutation(() => User)
@@ -37,18 +22,16 @@ export class UsersResolver {
     @Args('id') id: string,
     @Args('input') input: UpdateUserInput,
   ): Promise<User> {
-    return this.usersService.update(id, input)
+    return this.usersService.update(id, input);
   }
 
   @Mutation(() => User)
   async deleteUser(@Args('id') id: string): Promise<User> {
-    return this.usersService.delete(id)
+    return this.usersService.delete(id);
   }
 
-  @ResolveField(() => [Order])
-  async orders(@Parent() item: Item): Promise<Order[]> {
-    const { id } = item
-
-    return this.ordersService.find({ userId: id })
+  @Mutation(() => User)
+  async createUser(@Args('input') input: UserInput): Promise<User> {
+    return this.usersService.create(input);
   }
 }

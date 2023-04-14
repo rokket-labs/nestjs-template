@@ -3,17 +3,19 @@ import {
   HideField,
   ID,
   ObjectType,
-  registerEnumType,
+  // registerEnumType,
 } from '@nestjs/graphql'
-import { arrayProp, prop } from '@typegoose/typegoose'
+import { 
+  // arrayProp, 
+  prop } from '@typegoose/typegoose'
 
-import { Roles } from 'src/app.roles'
-import { Order } from 'src/orders/orders.model'
+// import { Roles } from 'src/app.roles'
+// import { Order } from 'src/orders/orders.model'
 
-registerEnumType(Roles, {
-  name: 'Roles',
-  description: 'User role for permissions',
-})
+// registerEnumType(Roles, {
+//   name: 'Roles',
+//   description: 'User role for permissions',
+// })
 
 @ObjectType()
 export class User {
@@ -33,8 +35,8 @@ export class User {
   @prop()
   lastName?: string
 
-  @arrayProp({ items: String, enum: Roles, default: Roles.USER })
-  roles?: Roles[]
+  // @arrayProp({ items: String, enum: Roles, default: Roles.USER })
+  // roles?: Roles[]
 
-  orders?: Order[]
+  // orders?: Order[]
 }

@@ -1,25 +1,13 @@
-FROM mhart/alpine-node:15.4
+FROM node:18-alpine
 
-RUN apk add --update --no-cache yarn py-pip g++ make && rm -rf /var/cache/apk
+RUN npm i -g pnpm@8.2.0
 
-RUN mkdir -p /home/node/app
+COPY . .
 
-RUN addgroup -S node \
-  && adduser -S -D -h /home/node node node \
-  && chown -R node:node /home/node
-USER node
-
-WORKDIR /home/node/app
-
-COPY package.json ./
-COPY yarn.lock ./
-
-RUN yarn --ignore-engines --frozen-lockfile
-
-COPY --chown=node:node . .
+RUN pnpm i
 
 EXPOSE 3000
 
-RUN yarn prebuild && yarn build
+RUN pnpm build
 
-CMD ["yarn", "start:prod"]
+CMD ["pnpm", "start:prod"]

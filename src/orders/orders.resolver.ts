@@ -1,4 +1,4 @@
-import { forwardRef, Inject, UseGuards } from '@nestjs/common'
+import { forwardRef, Inject, UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -6,19 +6,19 @@ import {
   Query,
   ResolveField,
   Resolver,
-} from '@nestjs/graphql'
-import { CanDoAny, RoleProtected } from 'nestjs-role-protected'
+} from '@nestjs/graphql';
+import { CanDoAny, RoleProtected } from 'nestjs-role-protected';
 
-import { GqlAuthGuard } from 'src/auth/graphql-auth.guard'
-import { CurrentUser } from 'src/helpers/decorators/decorators'
-import { Item } from 'src/items/items.model'
-import { ItemsService } from 'src/items/items.service'
-import { User } from 'src/users/users.model'
-import { UsersService } from 'src/users/users.service'
+import { GqlAuthGuard } from 'src/auth/graphql-auth.guard';
+import { CurrentUser } from 'src/helpers/decorators/decorators';
+import { Item } from 'src/items/items.model';
+import { ItemsService } from 'src/items/items.service';
+import { User } from 'src/users/users.model';
+import { UsersService } from 'src/users/users.service';
 
-import { OrderInput, UpdateOrderInput } from './orders.input'
-import { Order } from './orders.model'
-import { OrdersService } from './orders.service'
+import { OrderInput, UpdateOrderInput } from './orders.input';
+import { Order } from './orders.model';
+import { OrdersService } from './orders.service';
 
 @Resolver(Order)
 export class OrdersResolver {
@@ -32,12 +32,12 @@ export class OrdersResolver {
 
   @Query(() => [Order])
   async allOrders(): Promise<Order[]> {
-    return this.ordersService.findAll()
+    return this.ordersService.findAll();
   }
 
   @Query(() => Order)
   async Order(@Args('id') id: string): Promise<Order> {
-    return this.ordersService.findOne(id)
+    return this.ordersService.findOne(id);
   }
 
   @UseGuards(GqlAuthGuard)
@@ -46,7 +46,7 @@ export class OrdersResolver {
     @Args('input') input: OrderInput,
     @CurrentUser() user: User,
   ): Promise<Order> {
-    return this.ordersService.create({ ...input, userId: user.id })
+    return this.ordersService.create({ ...input, userId: user.id });
   }
 
   @RoleProtected({
@@ -59,7 +59,7 @@ export class OrdersResolver {
     @CurrentUser() user: User,
     @CanDoAny() canDoAny: () => boolean,
   ): Promise<Order> {
-    return this.ordersService.update(id, user, input, canDoAny())
+    return this.ordersService.update(id, user, input, canDoAny());
   }
 
   @RoleProtected({
@@ -71,20 +71,20 @@ export class OrdersResolver {
     @CurrentUser() user: User,
     @CanDoAny() canDoAny: () => boolean,
   ): Promise<Order> {
-    return this.ordersService.delete(id, user, canDoAny())
+    return this.ordersService.delete(id, user, canDoAny());
   }
 
   @ResolveField()
   async user(@Parent() order: Order): Promise<User> {
-    const { userId } = order
+    const { userId } = order;
 
-    return this.usersService.findOne(userId)
+    return this.usersService.findOne(userId);
   }
 
   @ResolveField()
   async item(@Parent() order: Order): Promise<Item> {
-    const { itemId } = order
+    const { itemId } = order;
 
-    return this.itemsService.findOne(itemId)
+    return this.itemsService.findOne(itemId);
   }
 }

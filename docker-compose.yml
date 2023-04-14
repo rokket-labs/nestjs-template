@@ -7,8 +7,8 @@ services:
     ports:
       - '3000:3000'
     environment:
-      - MONGO_URL="mongodb://mongo/nestgraphql"
-      - JWT_SECRET="VERYSECRETJWTWOWROKKET"
+      - MONGO_URI=mongodb://mongo/nestgraphql
+      - JWT_SECRET=VERYSECRETJWTWOWROKKET
   mongo:
     image: mongo
     restart: always

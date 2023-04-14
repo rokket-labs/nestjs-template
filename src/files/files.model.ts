@@ -1,12 +1,12 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql'
-import { prop } from '@typegoose/typegoose'
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { prop } from '@typegoose/typegoose';
 
 @ObjectType()
 export class File {
   @Field(() => ID)
   @prop({ required: true })
-  url: string
+  url: string;
 
   @prop({ required: true })
-  success: boolean
+  success: boolean;
 }

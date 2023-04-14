@@ -1,28 +1,28 @@
-import { Injectable, Scope } from '@nestjs/common'
-import { ModuleRef } from '@nestjs/core'
+import { Injectable, Scope } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
 import {
   ConnectionNotFoundError,
   HealthCheckError,
   HealthIndicator,
   HealthIndicatorResult,
   TimeoutError,
-} from '@nestjs/terminus'
-import { checkPackages } from '@nestjs/terminus/dist/utils/checkPackage.util'
+} from '@nestjs/terminus';
+import { checkPackages } from '@nestjs/terminus/dist/utils/checkPackage.util';
 import {
   promiseTimeout,
   TimeoutError as PromiseTimeoutError,
-} from '@nestjs/terminus/dist/utils/promise-timeout'
-import * as NestJSTypegoose from 'nestjs-typegoose'
+} from '@nestjs/terminus/dist/utils/promise-timeout';
+import * as NestJSTypegoose from '@m8a/nestjs-typegoose';
 
 export interface TypegoosePingCheckSettings {
   /**
    * The connection which the ping check should get executed
    */
-  connection?: any
+  connection?: any;
   /**
    * The amount of time the check should require in ms
    */
-  timeout?: number
+  timeout?: number;
 }
 
 /**
@@ -40,8 +40,8 @@ export class TypegooseHealthIndicator extends HealthIndicator {
    * @param {ModuleRef} moduleRef The NestJS module reference
    */
   constructor(private moduleRef: ModuleRef) {
-    super()
-    this.checkDependantPackages()
+    super();
+    this.checkDependantPackages();
   }
 
   /**
@@ -49,9 +49,9 @@ export class TypegooseHealthIndicator extends HealthIndicator {
    */
   private checkDependantPackages() {
     checkPackages(
-      ['nestjs-typegoose', '@typegoose/typegoose'],
+      ['@m8a/nestjs-typegoose', '@typegoose/typegoose'],
       this.constructor.name,
-    )
+    );
   }
 
   /**
@@ -59,16 +59,16 @@ export class TypegooseHealthIndicator extends HealthIndicator {
    */
   private getContextConnection(): any | null {
     const { getConnectionToken } = import(
-      'nestjs-typegoose'
-    ) as unknown as typeof NestJSTypegoose
+      '@m8a/nestjs-typegoose'
+    ) as unknown as typeof NestJSTypegoose;
 
     try {
       return this.moduleRef.get(
         getConnectionToken('DefaultTypegooseConnection') as string,
         { strict: false },
-      )
+      );
     } catch (err) {
-      return null
+      return null;
     }
   }
 
@@ -80,9 +80,9 @@ export class TypegooseHealthIndicator extends HealthIndicator {
    */
   private async pingDb(connection: any, timeout: number) {
     const promise =
-      connection.readyState === 1 ? Promise.resolve() : Promise.reject()
+      connection.readyState === 1 ? Promise.resolve() : Promise.reject();
 
-    return await promiseTimeout(timeout, promise)
+    return await promiseTimeout(timeout, promise);
   }
 
   /**
@@ -99,23 +99,23 @@ export class TypegooseHealthIndicator extends HealthIndicator {
     key: string,
     options: TypegoosePingCheckSettings = {},
   ): Promise<HealthIndicatorResult> {
-    let isHealthy = false
+    let isHealthy = false;
 
-    this.checkDependantPackages()
+    this.checkDependantPackages();
 
-    const connection = options.connection || this.getContextConnection()
-    const timeout = options.timeout || 1000
+    const connection = options.connection || this.getContextConnection();
+    const timeout = options.timeout || 1000;
 
     if (!connection)
       throw new ConnectionNotFoundError(
         this.getStatus(key, isHealthy, {
           message: 'Connection provider not found in application context',
         }),
-      )
+      );
 
     try {
-      await this.pingDb(connection, timeout)
-      isHealthy = true
+      await this.pingDb(connection, timeout);
+      isHealthy = true;
     } catch (err) {
       if (err instanceof PromiseTimeoutError)
         throw new TimeoutError(
@@ -123,14 +123,14 @@ export class TypegooseHealthIndicator extends HealthIndicator {
           this.getStatus(key, isHealthy, {
             message: `timeout of ${timeout}ms exceeded`,
           }),
-        )
+        );
     }
 
-    if (isHealthy) return this.getStatus(key, isHealthy)
+    if (isHealthy) return this.getStatus(key, isHealthy);
     else
       throw new HealthCheckError(
         `${key} is not available`,
         this.getStatus(key, isHealthy),
-      )
+      );
   }
 }

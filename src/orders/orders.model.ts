@@ -1,26 +1,26 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql'
-import { prop } from '@typegoose/typegoose'
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { prop } from '@typegoose/typegoose';
 
-import { Item } from 'src/items/items.model'
-import { User } from 'src/users/users.model'
+import { Item } from 'src/items/items.model';
+import { User } from 'src/users/users.model';
 
 @ObjectType()
 export class Order {
   @Field(() => ID)
-  id: string
+  id: string;
 
   @Field(() => User)
-  user: User
+  user: User;
 
   @Field(() => Item)
-  item: Item
+  item: Item;
 
   @prop()
-  userId: string
+  userId: string;
 
   @prop()
-  itemId: string
+  itemId: string;
 
   @prop()
-  quantity: number
+  quantity: number;
 }

@@ -7,15 +7,23 @@ type User {
   email: String!
   firstName: String
   lastName: String
-  roles: [Roles!]
-  orders: [Order!]
 }
 
-"""User role for permissions"""
-enum Roles {
-  USER
-  ADMIN
-  GUEST
+type Token {
+  accessToken: String!
+}
+
+type File {
+  url: ID!
+  success: Boolean!
+}
+
+type Item {
+  id: ID!
+  title: String!
+  price: Float!
+  description: String!
+  orders: [Order!]
 }
 
 type Order {
@@ -27,25 +35,8 @@ type Order {
   quantity: Float!
 }
 
-type Item {
-  id: ID!
-  title: String!
-  price: Float!
-  description: String!
-  orders: [Order!]
-}
-
 type Metadata {
   count: Float
-}
-
-type Token {
-  accessToken: String!
-}
-
-type File {
-  url: ID!
-  success: Boolean!
 }
 
 type Query {
@@ -59,13 +50,14 @@ type Query {
 }
 
 type Mutation {
-  updateUser(input: UpdateUserInput!, id: String!): User!
+  updateUser(id: String!, input: UpdateUserInput!): User!
   deleteUser(id: String!): User!
+  createUser(input: UserInput!): User!
   createOrder(input: OrderInput!): Order!
-  updateOrder(input: UpdateOrderInput!, id: String!): Order!
+  updateOrder(id: String!, input: UpdateOrderInput!): Order!
   deleteOrder(id: String!): Order!
   createItem(input: ItemInput!): Item!
-  updateItem(input: UpdateItemInput!, id: String!): Item!
+  updateItem(id: String!, input: UpdateItemInput!): Item!
   deleteItem(id: String!): Item!
   login(input: Login!): Token!
   signUp(input: UserInput!): User!
@@ -76,6 +68,13 @@ type Mutation {
 input UpdateUserInput {
   email: String
   password: String
+  firstName: String
+  lastName: String
+}
+
+input UserInput {
+  email: String!
+  password: String!
   firstName: String
   lastName: String
 }
@@ -106,13 +105,6 @@ input UpdateItemInput {
 input Login {
   email: String!
   password: String!
-}
-
-input UserInput {
-  email: String!
-  password: String!
-  firstName: String
-  lastName: String
 }
 
 """The `Upload` scalar type represents a file upload."""

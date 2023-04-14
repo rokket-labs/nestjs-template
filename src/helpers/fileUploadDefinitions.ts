@@ -1,32 +1,34 @@
-import { Readable } from 'stream'
+import { Readable } from 'stream';
 
-import * as FileType from 'file-type'
-import { GraphQLError, GraphQLScalarType } from 'graphql'
+import { fromStream } from 'file-type';
+import { GraphQLError, GraphQLScalarType } from 'graphql';
 
 export interface FileUpload {
-  filename: string
-  mimetype: string
-  encoding: string
-  createReadStream: () => Readable
+  filename: string;
+  mimetype: string;
+  encoding: string;
+  createReadStream: () => Readable;
 }
 
 export const GraphQLUpload = new GraphQLScalarType({
   name: 'Upload',
   description: 'The `Upload` scalar type represents a file upload.',
   async parseValue(value: Promise<FileUpload>): Promise<FileUpload> {
-    const upload = await value
-    const stream = upload.createReadStream()
-    const fileType = await FileType.fromStream(stream)
+    const upload = await value;
+    const stream = upload.createReadStream();
+    const fileType = await fromStream(stream);
 
     if (fileType?.mime !== upload.mimetype)
-      throw new GraphQLError('Mime type does not match file content.')
+      throw new GraphQLError('Mime type does not match file content.');
 
-    return upload
+    return upload;
   },
-  parseLiteral(ast): void {
-    throw new GraphQLError('Upload literal unsupported.', ast)
+  parseLiteral(ast) {
+    throw new GraphQLError('Upload literal unsupported.', {
+      nodes: ast,
+    });
   },
   serialize(): void {
-    throw new GraphQLError('Upload serialization unsupported.')
+    throw new GraphQLError('Upload serialization unsupported.');
   },
-})
+});

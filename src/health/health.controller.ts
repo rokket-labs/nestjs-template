@@ -1,12 +1,12 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Get } from '@nestjs/common';
 import {
   HealthCheck,
   HealthCheckResult,
   HealthCheckService,
   HttpHealthIndicator,
-} from '@nestjs/terminus'
+} from '@nestjs/terminus';
 
-import { TypegooseHealthIndicator } from './typegoose.indicator'
+import { TypegooseHealthIndicator } from './typegoose.indicator';
 
 @Controller('health')
 export class HealthController {
@@ -22,6 +22,6 @@ export class HealthController {
     return this.health.check([
       () => this.http.pingCheck('google', 'https://google.com'),
       () => this.mongo.pingCheck('mongodb', { timeout: 1500 }),
-    ])
+    ]);
   }
 }
