@@ -18,7 +18,7 @@ export interface TypegoosePingCheckSettings {
   /**
    * The connection which the ping check should get executed
    */
-  connection?: any
+  connection?: unknown
   /**
    * The amount of time the check should require in ms
    */
@@ -57,7 +57,7 @@ export class TypegooseHealthIndicator extends HealthIndicator {
   /**
    * Returns the connection of the current DI context
    */
-  private getContextConnection(): any | null {
+  private getContextConnection(): unknown | null {
     const { getConnectionToken } = import(
       '@m8a/nestjs-typegoose'
     ) as unknown as typeof NestJSTypegoose
@@ -78,6 +78,7 @@ export class TypegooseHealthIndicator extends HealthIndicator {
    * @param timeout The timeout how long the ping should maximum take
    *
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async pingDb(connection: any, timeout: number) {
     const promise =
       connection.readyState === 1 ? Promise.resolve() : Promise.reject()
