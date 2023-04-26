@@ -82,6 +82,9 @@ dependencies:
   nanoid:
     specifier: ^3.3.6
     version: 3.3.6
+  node-fetch:
+    specifier: ^2.6.9
+    version: 2.6.9
   passport:
     specifier: ^0.6.0
     version: 0.6.0
