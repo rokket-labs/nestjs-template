@@ -1,3 +1,5 @@
+import { join } from 'path'
+
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { ConfigModule, ConfigService } from '@nestjs/config'
@@ -9,7 +11,7 @@ export const AppImports = [
   ConfigModule.forRoot({ isGlobal: true }),
   GraphQLModule.forRoot<ApolloDriverConfig>({
     driver: ApolloDriver,
-    autoSchemaFile: 'schema.gql',
+    autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     sortSchema: true,
     subscriptions: {
       'graphql-ws': true,
