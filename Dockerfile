@@ -1,17 +1,24 @@
-FROM node:18-alpine
+FROM node:18-alpine as ts-compiler
+WORKDIR /usr/app
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node pnpm-lock.yaml ./
+COPY --chown=node:node tsconfig*.json ./
+RUN npm i -g pnpm@8.3.1
+RUN pnpm i --frozen-lockfile --ignore-scripts
+USER node
 
-RUN npm i -g pnpm@8.2.0
+FROM node:18-alpine as ts-builder
+WORKDIR /usr/app
+COPY --from=ts-compiler /usr/app/. ./
+COPY --chown=node:node . ./
+RUN npm i -g pnpm@8.3.1
+RUN pnpm run build
+ENV NODE_ENV production
+RUN pnpm i -P --frozen-lockfile --ignore-scripts
+USER node
 
-RUN mkdir -p /home/node/app
-
-WORKDIR /home/node/app
-
-COPY . .
-
-RUN pnpm i
-
-EXPOSE 3000
-
-RUN pnpm build
-
-CMD ["pnpm", "start:prod"]
+FROM gcr.io/distroless/nodejs:18
+WORKDIR /usr/app
+COPY --chown=node:node --from=ts-builder /usr/app/node_modules ./node_modules
+COPY --chown=node:node --from=ts-builder /usr/app/dist ./dist
+CMD ["dist/main.js"]
