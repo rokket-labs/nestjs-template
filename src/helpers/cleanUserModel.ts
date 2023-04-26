@@ -1,6 +1,6 @@
 import { assoc, omit, pipe, prop } from 'ramda'
 
-import { User } from 'src/users/users.model'
+import { User } from '../users/schemas/users.model'
 
 const omitValues = omit(['_id', '__v', 'password'])
 

@@ -1,18 +1,15 @@
-import { TypegooseModule } from '@m8a/nestjs-typegoose'
 import { Module } from '@nestjs/common'
+import { MongooseModule } from '@nestjs/mongoose'
 
-import { User } from './users.model'
+import { User, UserSchema } from './schemas/users.model'
 import { UsersResolver } from './users.resolver'
 import { UsersService } from './users.service'
 
 @Module({
   imports: [
-    TypegooseModule.forFeature([
-      { typegooseClass: User, schemaOptions: { timestamps: true } },
-    ]),
-    // forwardRef(() => OrdersModule),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
-  providers: [UsersResolver, UsersService],
+  providers: [UsersService, UsersResolver],
   exports: [UsersService],
 })
 export class UsersModule {}

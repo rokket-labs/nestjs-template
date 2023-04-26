@@ -4,7 +4,7 @@ import * as path from 'path'
 import { Injectable } from '@nestjs/common'
 import { nanoid } from 'nanoid'
 
-import { FileUpload } from 'src/helpers/fileUploadDefinitions'
+import { FileUpload } from '../helpers/fileUploadDefinitions'
 
 @Injectable()
 export class FilesService {

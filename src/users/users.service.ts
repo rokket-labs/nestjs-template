@@ -1,32 +1,53 @@
-import { InjectModel } from '@m8a/nestjs-typegoose'
 import { Injectable } from '@nestjs/common'
-import { ReturnModelType } from '@typegoose/typegoose'
+import { InjectModel } from '@nestjs/mongoose'
 import * as bcryptjs from 'bcryptjs'
+import { Model } from 'mongoose'
 
-import { UpdateUserInput, UserInput } from './users.input'
-import { User } from './users.model'
+import { IdTokenUser } from 'src/auth/jwt.strategy'
+
+import { UserInput } from '../auth/dto/user.input'
+
+import { RegisterUserInput } from './dto/user.input'
+import { User, UserDocument } from './schemas/users.model'
+
+type UserInputJWT = RegisterUserInput & UserInput
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectModel(User) private readonly userModel: ReturnModelType<typeof User>,
-  ) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(input: UserInput): Promise<User> {
+  async registerUser(
+    userInput: RegisterUserInput,
+    user: IdTokenUser,
+  ): Promise<User> {
+    const newUser = new this.userModel({
+      ...userInput,
+      email: user.email,
+      cognitoUserId: user.sub,
+      isAdmin: false,
+    })
+
+    return newUser.save()
+  }
+
+  async findOrRegisterUser(user: IdTokenUser): Promise<User> {
+    const foundUser = await this.userModel.findOne({
+      cognitoUserId: user.sub,
+      email: user.email,
+    })
+
+    if (foundUser) return foundUser
+
+    return this.registerUser({}, user)
+  }
+
+  async create(input: UserInputJWT): Promise<User> {
     const createdItem = new this.userModel(input)
 
     return createdItem.save()
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.find().exec()
-  }
-
-  async findOne(id: string): Promise<User> {
-    return this.userModel.findOne({ _id: id })
-  }
-
-  async validate(input: UserInput): Promise<User | null> {
+  async validate(input: UserInputJWT): Promise<User | null> {
     const { email, password } = input
     const user = await this.userModel.findOne({ email })
 
@@ -37,15 +58,7 @@ export class UsersService {
     return valid ? user : null
   }
 
-  async findByEmail(email: string): Promise<User> {
-    return this.userModel.findOne({ email })
-  }
-
-  async delete(id: string): Promise<User> {
-    return this.userModel.findByIdAndRemove(id)
-  }
-
-  async update(id: string, user: UpdateUserInput): Promise<User> {
-    return this.userModel.findByIdAndUpdate(id, user, { new: true })
+  async findOne(id: string): Promise<User> {
+    return this.userModel.findOne({ _id: id })
   }
 }

@@ -2,9 +2,46 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  id: ID!
+type Article {
+  isPublished: Boolean!
+  title: String!
+  user: User!
+}
+
+input CreateArticleInput {
+  isPublished: Boolean = true
+  title: String!
+}
+
+type File {
+  success: Boolean!
+  url: ID!
+}
+
+input Login {
   email: String!
+  password: String!
+}
+
+type Mutation {
+  createArticle(createArticleInput: CreateArticleInput!): Article!
+  login(input: Login!): Token!
+  registerUser(userInput: RegisterUserInput!): UserDto!
+  removeArticle(id: String!): Boolean!
+  removeFile(fileUrl: String!): Boolean!
+  signUp(input: UserInput!): User!
+  updateArticle(updateArticleInput: UpdateArticleInput!): Article!
+  uploadFile(file: Upload!): File!
+}
+
+type Query {
+  article(id: Float!): Article!
+  articles: [Article!]!
+  getHello: String!
+  myArticles: [Article!]!
+}
+
+input RegisterUserInput {
   firstName: String
   lastName: String
 }
@@ -13,99 +50,33 @@ type Token {
   accessToken: String!
 }
 
-type File {
-  url: ID!
-  success: Boolean!
+input UpdateArticleInput {
+  id: String!
+  isPublished: Boolean = true
+  title: String
 }
 
-type Item {
-  id: ID!
-  title: String!
-  price: Float!
-  description: String!
-  orders: [Order!]
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type User {
+  cognitoUserId: String!
+  email: String!
+  firstName: String!
+  id: String!
+  isAdmin: Boolean!
+  lastName: String!
 }
 
-type Order {
-  id: ID!
-  user: User!
-  item: Item!
-  userId: String!
-  itemId: String!
-  quantity: Float!
-}
-
-type Metadata {
-  count: Float
-}
-
-type Query {
-  allUsers: [User!]!
-  User(id: String!): User!
-  allOrders: [Order!]!
-  Order(id: String!): Order!
-  allItems: [Item!]!
-  Item(id: String!): Item!
-  allItemsMeta: Metadata!
-}
-
-type Mutation {
-  updateUser(id: String!, input: UpdateUserInput!): User!
-  deleteUser(id: String!): User!
-  createUser(input: UserInput!): User!
-  createOrder(input: OrderInput!): Order!
-  updateOrder(id: String!, input: UpdateOrderInput!): Order!
-  deleteOrder(id: String!): Order!
-  createItem(input: ItemInput!): Item!
-  updateItem(id: String!, input: UpdateItemInput!): Item!
-  deleteItem(id: String!): Item!
-  login(input: Login!): Token!
-  signUp(input: UserInput!): User!
-  uploadFile(file: Upload!): File!
-  removeFile(fileUrl: String!): Boolean!
-}
-
-input UpdateUserInput {
+type UserDto {
   email: String
-  password: String
   firstName: String
+  id: String
+  isAdmin: Boolean
   lastName: String
 }
 
 input UserInput {
   email: String!
   password: String!
-  firstName: String
-  lastName: String
 }
-
-input OrderInput {
-  itemId: String!
-  userId: String!
-  quantity: Float!
-}
-
-input UpdateOrderInput {
-  itemId: String
-  quantity: Float
-}
-
-input ItemInput {
-  title: String!
-  price: Float!
-  description: String!
-}
-
-input UpdateItemInput {
-  title: String
-  price: Float
-  description: String
-}
-
-input Login {
-  email: String!
-  password: String!
-}
-
-"""The `Upload` scalar type represents a file upload."""
-scalar Upload
