@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common'
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
 import { GqlAuthGuard } from 'src/auth/gql-auth.guard'
 import { Action, AppAbility } from 'src/casl/casl-ability.factory'
@@ -68,6 +68,8 @@ export class ArticlesResolver {
   // @HasPermission([[Action.Delete, Article]])
   @Mutation(() => Boolean)
   removeArticle(@Args('id') id: string) {
+    console.log(id)
+
     return true
     // return this.articlesService.remove(id)
   }
