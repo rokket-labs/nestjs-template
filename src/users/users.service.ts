@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import * as bcryptjs from 'bcryptjs'
+import * as bcrypt from 'bcrypt'
 import { Model } from 'mongoose'
-
-import { IdTokenUser } from 'src/auth/jwt.strategy'
 
 import { RegisterUserInput, UpdateUserInput } from './dto/user.input'
 import { User, UserDocument } from './schemas/users.model'
@@ -12,21 +10,24 @@ import { User, UserDocument } from './schemas/users.model'
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async registerUser(
-    userInput: RegisterUserInput,
-    user: IdTokenUser,
-  ): Promise<User> {
+  async registerUser(input: RegisterUserInput): Promise<User> {
+    const password = await bcrypt.hash(input.password, 10)
+
     const newUser = new this.userModel({
-      ...userInput,
-      email: user.email,
-      isAdmin: false,
+      ...input,
+      password,
     })
 
     return newUser.save()
   }
 
-  async create(input: RegisterUserInput): Promise<User> {
-    const createdItem = new this.userModel(input)
+  async create(input: RegisterUserInput, currentUser: User): Promise<User> {
+    const password = await bcrypt.hash(input.password, 10)
+    const createdItem = new this.userModel({
+      ...input,
+      password,
+      createdBy: currentUser.id,
+    })
 
     return createdItem.save()
   }
@@ -35,9 +36,13 @@ export class UsersService {
     const { email, password } = input
     const user = await this.userModel.findOne({ email })
 
+    console.log(user.password)
+
     if (!user) return null
 
-    const valid = await bcryptjs.compare(password, user.password)
+    const valid = await bcrypt.compare(password, user.password)
+
+    console.log(valid)
 
     return valid ? user : null
   }

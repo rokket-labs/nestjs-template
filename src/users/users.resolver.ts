@@ -14,19 +14,21 @@ import { UsersService } from './users.service'
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Mutation(() => UserDto)
-  @UseGuards(GqlAuthGuard)
-  async registerUser(
-    @Args('userInput') userInput: RegisterUserInput,
-    @CurrentUser() currentUser: IdTokenUser,
-  ) {
-    return this.usersService.registerUser(userInput, currentUser)
-  }
+  // @Mutation(() => UserDto)
+  // @UseGuards(GqlAuthGuard)
+  // async registerUser(
+  //   @Args('userInput') userInput: RegisterUserInput,
+  //   @CurrentUser() currentUser: IdTokenUser,
+  // ) {
+  //   return this.usersService.registerUser(userInput, currentUser)
+  // }
 
   @Mutation(() => UserDto)
-  @UseGuards(GqlAuthGuard)
-  async createUser(@Args('userInput') userInput: RegisterUserInput) {
-    return this.usersService.create(userInput)
+  async createUser(
+    @Args('userInput') userInput: RegisterUserInput,
+    @CurrentUser() currentUser: User,
+  ) {
+    return this.usersService.create(userInput, currentUser)
   }
 
   @Query(() => [User])

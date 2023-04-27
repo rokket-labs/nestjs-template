@@ -4,7 +4,7 @@ import { Document } from 'mongoose'
 
 // import { Role } from 'src/roles/schemas/roles.model'
 
-@Schema()
+@Schema({ timestamps: true })
 @ObjectType()
 export class User {
   id: string
@@ -15,7 +15,7 @@ export class User {
   // @Prop({ type: Types.ObjectId, ref: 'Role' })
   // role: Role
 
-  @Prop({ required: true, lowercase: true })
+  @Prop({ required: true, lowercase: true, unique: true })
   email: string
 
   @HideField()
@@ -23,13 +23,16 @@ export class User {
   password: string
 
   @Prop()
-  firstName: string
+  firstName?: string
 
   @Prop()
-  lastName: string
+  lastName?: string
 
   @Prop({ default: false })
   isAdmin: boolean
+
+  @Prop()
+  createdBy?: string
 }
 
 export type UserDocument = User & Document
