@@ -9,8 +9,8 @@ import { Document } from 'mongoose'
 export class User {
   id: string
 
-  @Prop({ index: 'text', unique: true })
-  cognitoUserId: string
+  // @Prop({ index: 'text', unique: true })
+  // sub: string
 
   // @Prop({ type: Types.ObjectId, ref: 'Role' })
   // role: Role
@@ -28,7 +28,7 @@ export class User {
   @Prop()
   lastName: string
 
-  @Prop()
+  @Prop({ default: false })
   isAdmin: boolean
 }
 

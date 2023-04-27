@@ -6,6 +6,8 @@ import { ExtractJwt, Strategy } from 'passport-jwt'
 
 import { UsersService } from 'src/users/users.service'
 
+import { Payload, UserPayload } from './dto/user-session.model'
+
 export interface IdTokenUser {
   sub: string
   email_verified: string
@@ -38,12 +40,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     })
   }
 
-  // validate(payload: Payload): UserPayload {
-  //   return payload.user
-  // }
-  public async validate(payload: IdTokenUser) {
-    const user = await this.usersService.findOrRegisterUser(payload)
-
-    return user
+  validate(payload: Payload): UserPayload {
+    return payload.user
   }
+  // public async validate(payload: IdTokenUser) {
+  //   const user = await this.usersService.findOrRegisterUser(payload)
+
+  //   return user
+  // }
 }

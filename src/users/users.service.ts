@@ -5,12 +5,8 @@ import { Model } from 'mongoose'
 
 import { IdTokenUser } from 'src/auth/jwt.strategy'
 
-import { UserInput } from '../auth/dto/user.input'
-
-import { RegisterUserInput } from './dto/user.input'
+import { RegisterUserInput, UpdateUserInput } from './dto/user.input'
 import { User, UserDocument } from './schemas/users.model'
-
-type UserInputJWT = RegisterUserInput & UserInput
 
 @Injectable()
 export class UsersService {
@@ -23,31 +19,19 @@ export class UsersService {
     const newUser = new this.userModel({
       ...userInput,
       email: user.email,
-      cognitoUserId: user.sub,
       isAdmin: false,
     })
 
     return newUser.save()
   }
 
-  async findOrRegisterUser(user: IdTokenUser): Promise<User> {
-    const foundUser = await this.userModel.findOne({
-      cognitoUserId: user.sub,
-      email: user.email,
-    })
-
-    if (foundUser) return foundUser
-
-    return this.registerUser({}, user)
-  }
-
-  async create(input: UserInputJWT): Promise<User> {
+  async create(input: RegisterUserInput): Promise<User> {
     const createdItem = new this.userModel(input)
 
     return createdItem.save()
   }
 
-  async validate(input: UserInputJWT): Promise<User | null> {
+  async validate(input: RegisterUserInput): Promise<User | null> {
     const { email, password } = input
     const user = await this.userModel.findOne({ email })
 
@@ -60,5 +44,19 @@ export class UsersService {
 
   async findOne(id: string): Promise<User> {
     return this.userModel.findOne({ _id: id })
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.userModel.find()
+  }
+
+  async update(id: string, updateUserInput: UpdateUserInput) {
+    return this.userModel.findByIdAndUpdate(id, updateUserInput, {
+      new: true,
+    })
+  }
+
+  async delete(id: string): Promise<User> {
+    return this.userModel.findByIdAndRemove(id)
   }
 }
