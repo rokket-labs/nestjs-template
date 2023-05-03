@@ -1,6 +1,5 @@
-import { Action, AppAbility } from 'src/casl/casl-ability.factory'
-import { IPolicyHandler } from 'src/casl/policies.guard'
-
+import { Action, AppAbility } from '../../casl/casl-ability.factory'
+import { IPolicyHandler } from '../../casl/policies.guard'
 import { Article } from '../schemas/articles.model'
 
 export class EditArticleHandler implements IPolicyHandler {

@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql'
 
-import { User } from 'src/users/schemas/users.model'
+import { User } from '../../users/schemas/users.model'
 
 @ObjectType()
 export class UserSession {

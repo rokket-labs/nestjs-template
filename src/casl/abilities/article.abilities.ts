@@ -1,8 +1,7 @@
 import { AbilityBuilder } from '@casl/ability'
 
-import { Article } from 'src/articles/schemas/articles.model'
-import { User } from 'src/users/schemas/users.model'
-
+import { Article } from '../../articles/schemas/articles.model'
+import { User } from '../../users/schemas/users.model'
 import { Action, AppAbility } from '../casl-ability.factory'
 
 export const ArticleAbilities = (

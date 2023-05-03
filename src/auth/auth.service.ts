@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 
-import { cleanUserModel } from 'src/helpers/cleanUserModel'
-import { User } from 'src/users/schemas/users.model'
-import { UsersService } from 'src/users/users.service'
+import { cleanUserModel } from '../helpers/cleanUserModel'
+import { User } from '../users/schemas/users.model'
+import { UsersService } from '../users/users.service'
 
 import { UserInput } from './dto/user.input'
 import { Token } from './interfaces/token.model'

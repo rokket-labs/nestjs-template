@@ -8,7 +8,7 @@ import {
 import { Reflector } from '@nestjs/core'
 import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql'
 
-import { Article } from 'src/articles/schemas/articles.model'
+import { Article } from '../articles/schemas/articles.model'
 
 import {
   Action,

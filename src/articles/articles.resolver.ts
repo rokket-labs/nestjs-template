@@ -1,15 +1,15 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
-import { GqlAuthGuard } from 'src/auth/gql-auth.guard'
-import { Action, AppAbility } from 'src/casl/casl-ability.factory'
+import { GqlAuthGuard } from '../auth/gql-auth.guard'
+import { Action, AppAbility } from '../casl/casl-ability.factory'
 import {
   CheckPolicies,
   HasPermission,
   PoliciesGuard,
-} from 'src/casl/policies.guard'
-import { User } from 'src/users/schemas/users.model'
-import { CurrentUser } from 'src/utils/decorators/current-user'
+} from '../casl/policies.guard'
+import { User } from '../users/schemas/users.model'
+import { CurrentUser } from '../utils/decorators/current-user'
 
 import { CreateArticleInput } from './dto/create-article.input'
 import { UpdateArticleInput } from './dto/update-article.input'

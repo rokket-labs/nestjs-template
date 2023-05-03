@@ -13,11 +13,11 @@ import { AppService } from './app.service'
 @Module({
   imports: [
     ...AppImports,
+    FilesModule,
     AuthModule,
     UsersModule,
     CaslModule,
     ArticlesModule,
-    FilesModule,
   ],
   controllers: [HealthController],
   providers: [AppService, AppResolver],

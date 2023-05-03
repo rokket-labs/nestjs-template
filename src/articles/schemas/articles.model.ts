@@ -2,7 +2,7 @@ import { ObjectType } from '@nestjs/graphql'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import * as mongoose from 'mongoose'
 
-import { User } from 'src/users/schemas/users.model'
+import { User } from '../../users/schemas/users.model'
 
 @Schema()
 @ObjectType()

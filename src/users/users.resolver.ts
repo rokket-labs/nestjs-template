@@ -3,7 +3,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
 // import { GqlAuthGuard } from 'src/auth/gql-auth.guard'
 // import { IdTokenUser } from 'src/auth/jwt.strategy'
-import { CurrentUser } from 'src/utils/decorators/current-user'
+import { CurrentUser } from '../utils/decorators/current-user'
 
 import { UserDto } from './dto/user.dto'
 import { RegisterUserInput, UpdateUserInput } from './dto/user.input'

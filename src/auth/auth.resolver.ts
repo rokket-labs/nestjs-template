@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus } from '@nestjs/common'
 import { Args, Mutation, Resolver } from '@nestjs/graphql'
 
-import { User } from 'src/users/schemas/users.model'
+import { User } from '../users/schemas/users.model'
 
 import { Login } from './dto/login.input'
 import { UserInput } from './dto/user.input'

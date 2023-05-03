@@ -4,7 +4,7 @@ import { PassportStrategy } from '@nestjs/passport'
 // import { passportJwtSecret } from 'jwks-rsa'
 import { ExtractJwt, Strategy } from 'passport-jwt'
 
-import { UsersService } from 'src/users/users.service'
+import { UsersService } from '../users/users.service'
 
 import { Payload, UserPayload } from './dto/user-session.model'
 

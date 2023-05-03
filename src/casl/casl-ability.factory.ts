@@ -7,8 +7,8 @@ import {
 } from '@casl/ability'
 import { Injectable } from '@nestjs/common'
 
-import { Article } from 'src/articles/schemas/articles.model'
-import { User } from 'src/users/schemas/users.model'
+import { Article } from '../articles/schemas/articles.model'
+import { User } from '../users/schemas/users.model'
 
 import { ArticleAbilities } from './abilities/article.abilities'
 
