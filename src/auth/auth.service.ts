@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import bcryptjs from 'bcryptjs'
 
-import { cleanUserModel } from 'src/helpers/cleanUserModel'
-import { UserInput } from 'src/users/users.input'
-import { User } from 'src/users/users.model'
-import { UsersService } from 'src/users/users.service'
+import { cleanUserModel } from '../helpers/cleanUserModel'
+import { User } from '../users/schemas/users.model'
+import { UsersService } from '../users/users.service'
 
-import { Token } from './token.model'
+import { UserInput } from './dto/user.input'
+import { Token } from './interfaces/token.model'
 
 type ValidateInput = {
   id: string
@@ -32,9 +31,7 @@ export class AuthService {
   }
 
   async signUp(createUserDto: UserInput): Promise<User> {
-    const password = await bcryptjs.hash(createUserDto.password, 10)
-
-    return this.usersService.create({ ...createUserDto, password })
+    return this.usersService.registerUser({ ...createUserDto })
   }
 
   async validateUser(userInput: UserInput): Promise<User | null> {

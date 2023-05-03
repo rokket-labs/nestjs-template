@@ -1,25 +1,24 @@
-FROM mhart/alpine-node:15.4
-
-RUN apk add --update --no-cache yarn py-pip g++ make && rm -rf /var/cache/apk
-
-RUN mkdir -p /home/node/app
-
-RUN addgroup -S node \
-  && adduser -S -D -h /home/node node node \
-  && chown -R node:node /home/node
+FROM node:18-alpine as ts-compiler
+WORKDIR /usr/app
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node pnpm-lock.yaml ./
+COPY --chown=node:node tsconfig*.json ./
+RUN npm i -g pnpm@8.3.1
+RUN pnpm i --frozen-lockfile --ignore-scripts
 USER node
 
-WORKDIR /home/node/app
+FROM node:18-alpine as ts-builder
+WORKDIR /usr/app
+COPY --from=ts-compiler /usr/app/. ./
+COPY --chown=node:node . ./
+RUN npm i -g pnpm@8.3.1
+RUN pnpm run build
+ENV NODE_ENV production
+RUN pnpm i -P --frozen-lockfile --ignore-scripts
+USER node
 
-COPY package.json ./
-COPY yarn.lock ./
-
-RUN yarn --ignore-engines --frozen-lockfile
-
-COPY --chown=node:node . .
-
-EXPOSE 3000
-
-RUN yarn prebuild && yarn build
-
-CMD ["yarn", "start:prod"]
+FROM gcr.io/distroless/nodejs:18
+WORKDIR /usr/app
+COPY --chown=node:node --from=ts-builder /usr/app/node_modules ./node_modules
+COPY --chown=node:node --from=ts-builder /usr/app/dist ./dist
+CMD ["dist/main.js"]

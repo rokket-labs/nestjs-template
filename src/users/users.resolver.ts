@@ -1,26 +1,35 @@
-import {
-  Args,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql'
+// import { UseGuards } from '@nestjs/common'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
-import { Item } from 'src/items/items.model'
-import { Order } from 'src/orders/orders.model'
-import { OrdersService } from 'src/orders/orders.service'
+// import { GqlAuthGuard } from 'src/auth/gql-auth.guard'
+// import { IdTokenUser } from 'src/auth/jwt.strategy'
+import { CurrentUser } from '../utils/decorators/current-user'
 
-import { UpdateUserInput } from './users.input'
-import { User } from './users.model'
+import { UserDto } from './dto/user.dto'
+import { RegisterUserInput, UpdateUserInput } from './dto/user.input'
+import { User } from './schemas/users.model'
 import { UsersService } from './users.service'
 
-@Resolver(User)
+@Resolver()
 export class UsersResolver {
-  constructor(
-    private readonly usersService: UsersService,
-    private readonly ordersService: OrdersService,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
+
+  // @Mutation(() => UserDto)
+  // @UseGuards(GqlAuthGuard)
+  // async registerUser(
+  //   @Args('userInput') userInput: RegisterUserInput,
+  //   @CurrentUser() currentUser: IdTokenUser,
+  // ) {
+  //   return this.usersService.registerUser(userInput, currentUser)
+  // }
+
+  @Mutation(() => UserDto)
+  async createUser(
+    @Args('userInput') userInput: RegisterUserInput,
+    @CurrentUser() currentUser: User,
+  ) {
+    return this.usersService.create(userInput, currentUser)
+  }
 
   @Query(() => [User])
   async allUsers(): Promise<User[]> {
@@ -43,12 +52,5 @@ export class UsersResolver {
   @Mutation(() => User)
   async deleteUser(@Args('id') id: string): Promise<User> {
     return this.usersService.delete(id)
-  }
-
-  @ResolveField(() => [Order])
-  async orders(@Parent() item: Item): Promise<Order[]> {
-    const { id } = item
-
-    return this.ordersService.find({ userId: id })
   }
 }

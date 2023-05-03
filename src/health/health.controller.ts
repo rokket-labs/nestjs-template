@@ -1,27 +1,25 @@
 import { Controller, Get } from '@nestjs/common'
 import {
   HealthCheck,
-  HealthCheckResult,
   HealthCheckService,
   HttpHealthIndicator,
+  MongooseHealthIndicator,
 } from '@nestjs/terminus'
-
-import { TypegooseHealthIndicator } from './typegoose.indicator'
 
 @Controller('health')
 export class HealthController {
   constructor(
     private health: HealthCheckService,
     private http: HttpHealthIndicator,
-    private mongo: TypegooseHealthIndicator,
+    private mongoose: MongooseHealthIndicator,
   ) {}
 
   @Get()
   @HealthCheck()
-  async check(): Promise<HealthCheckResult> {
+  check() {
     return this.health.check([
-      () => this.http.pingCheck('google', 'https://google.com'),
-      () => this.mongo.pingCheck('mongodb', { timeout: 1500 }),
+      () => this.http.pingCheck('Google', 'https://google.com'),
+      async () => this.mongoose.pingCheck('mongoose'),
     ])
   }
 }

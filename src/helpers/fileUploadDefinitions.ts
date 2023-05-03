@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
 
-import * as FileType from 'file-type'
+import { fromStream } from 'file-type'
 import { GraphQLError, GraphQLScalarType } from 'graphql'
 
 export interface FileUpload {
@@ -16,15 +16,17 @@ export const GraphQLUpload = new GraphQLScalarType({
   async parseValue(value: Promise<FileUpload>): Promise<FileUpload> {
     const upload = await value
     const stream = upload.createReadStream()
-    const fileType = await FileType.fromStream(stream)
+    const fileType = await fromStream(stream)
 
     if (fileType?.mime !== upload.mimetype)
       throw new GraphQLError('Mime type does not match file content.')
 
     return upload
   },
-  parseLiteral(ast): void {
-    throw new GraphQLError('Upload literal unsupported.', ast)
+  parseLiteral(ast) {
+    throw new GraphQLError('Upload literal unsupported.', {
+      nodes: ast,
+    })
   },
   serialize(): void {
     throw new GraphQLError('Upload serialization unsupported.')

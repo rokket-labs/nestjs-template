@@ -1,51 +1,67 @@
 import { Injectable } from '@nestjs/common'
-import { ReturnModelType } from '@typegoose/typegoose'
-import * as bcryptjs from 'bcryptjs'
-import { InjectModel } from 'nestjs-typegoose'
+import { InjectModel } from '@nestjs/mongoose'
+import * as bcrypt from 'bcrypt'
+import { Model } from 'mongoose'
 
-import { UpdateUserInput, UserInput } from './users.input'
-import { User } from './users.model'
+import { RegisterUserInput, UpdateUserInput } from './dto/user.input'
+import { User, UserDocument } from './schemas/users.model'
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectModel(User) private readonly userModel: ReturnModelType<typeof User>,
-  ) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(input: UserInput): Promise<User> {
-    const createdItem = new this.userModel(input)
+  async registerUser(input: RegisterUserInput): Promise<User> {
+    const password = await bcrypt.hash(input.password, 10)
+
+    const newUser = new this.userModel({
+      ...input,
+      password,
+    })
+
+    return newUser.save()
+  }
+
+  async create(input: RegisterUserInput, currentUser: User): Promise<User> {
+    const password = await bcrypt.hash(input.password, 10)
+    const createdItem = new this.userModel({
+      ...input,
+      password,
+      createdBy: currentUser.id,
+    })
 
     return createdItem.save()
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.find().exec()
+  async validate(input: RegisterUserInput): Promise<User | null> {
+    const { email, password } = input
+    const user = await this.userModel.findOne({ email })
+
+    console.log(user.password)
+
+    if (!user) return null
+
+    const valid = await bcrypt.compare(password, user.password)
+
+    console.log(valid)
+
+    return valid ? user : null
   }
 
   async findOne(id: string): Promise<User> {
     return this.userModel.findOne({ _id: id })
   }
 
-  async validate(input: UserInput): Promise<User | null> {
-    const { email, password } = input
-    const user = await this.userModel.findOne({ email })
-
-    if (!user) return null
-
-    const valid = await bcryptjs.compare(password, user.password)
-
-    return valid ? user : null
+  async findAll(): Promise<User[]> {
+    return this.userModel.find()
   }
 
-  async findByEmail(email: string): Promise<User> {
-    return this.userModel.findOne({ email })
+  async update(id: string, updateUserInput: UpdateUserInput) {
+    return this.userModel.findByIdAndUpdate(id, updateUserInput, {
+      new: true,
+    })
   }
 
   async delete(id: string): Promise<User> {
     return this.userModel.findByIdAndRemove(id)
-  }
-
-  async update(id: string, user: UpdateUserInput): Promise<User> {
-    return this.userModel.findByIdAndUpdate(id, user, { new: true })
   }
 }

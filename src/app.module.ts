@@ -1,26 +1,25 @@
 import { Module } from '@nestjs/common'
 
+import { ArticlesModule } from './articles/articles.module'
 import { AuthModule } from './auth/auth.module'
+import { CaslModule } from './casl/casl.module'
 import { FilesModule } from './files/files.module'
 import { HealthController } from './health/health.controller'
-import { TypegooseHealthIndicator } from './health/typegoose.indicator'
-import { ItemsModule } from './items/items.module'
-import { OrdersModule } from './orders/orders.module'
 import { UsersModule } from './users/users.module'
-import { AppController } from './app.controller'
 import { AppImports } from './app.imports'
+import { AppResolver } from './app.resolver'
 import { AppService } from './app.service'
 
 @Module({
   imports: [
     ...AppImports,
-    UsersModule,
-    OrdersModule,
-    ItemsModule,
-    AuthModule,
     FilesModule,
+    AuthModule,
+    UsersModule,
+    CaslModule,
+    ArticlesModule,
   ],
-  controllers: [AppController, HealthController],
-  providers: [AppService, TypegooseHealthIndicator],
+  controllers: [HealthController],
+  providers: [AppService, AppResolver],
 })
 export class AppModule {}

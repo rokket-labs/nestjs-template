@@ -1,18 +1,13 @@
-import { forwardRef, Module } from '@nestjs/common'
-import { TypegooseModule } from 'nestjs-typegoose'
+import { Module } from '@nestjs/common'
+import { MongooseModule } from '@nestjs/mongoose'
 
-import { OrdersModule } from 'src/orders/orders.module'
-
-import { User } from './users.model'
+import { User, UserSchema } from './schemas/users.model'
 import { UsersResolver } from './users.resolver'
 import { UsersService } from './users.service'
 
 @Module({
   imports: [
-    TypegooseModule.forFeature([
-      { typegooseClass: User, schemaOptions: { timestamps: true } },
-    ]),
-    forwardRef(() => OrdersModule),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
   providers: [UsersService, UsersResolver],
   exports: [UsersService],
